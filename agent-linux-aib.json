@@ -1,0 +1,77 @@
+{
+    "type": "Microsoft.VirtualMachineImages/imageTemplates",
+    "apiVersion": "2019-05-01-preview",
+    "location": "<region>",
+    "dependsOn": [],
+    "tags": {
+        "imagebuilderTemplate": "ubuntu1804"
+            },
+    "properties": {
+
+        "buildTimeoutInMinutes" : 80,
+
+        "vmProfile":
+            {
+            "vmSize": "Standard_D1_v2",
+            "osDiskSizeGB": 128
+            },
+
+        "source": {
+            "type": "PlatformImage",
+                "publisher": "Canonical",
+                "offer": "UbuntuServer",
+                "sku": "18.04-LTS",
+                "version": "18.04.201903060"
+
+        },
+        "customize": [
+            {
+                "type": "Shell",
+                "name": "InitialConfiguration",
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/master/scripts/baseupdates.sh"
+            },
+            {
+                "type": "Shell",
+                "name": "InstallDocker",
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/master/scripts/docker.sh"
+            },
+            {
+                "type": "Shell",
+                "name": "InstallDockerCompose",
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/master/scripts/dockercompose.sh"
+            },
+            {
+                "type": "Shell",
+                "name": "InstallMaven",
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/master/scripts/maven.sh"
+            },
+            {
+                "type": "Shell",
+                "name": "InstallDotNetCoreSdk3-1",
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/master/scripts/netcoresdk3-1.sh"
+            },
+            {
+                "type": "Shell",
+                "name": "DownloadAzureDevOpsAgent",
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/master/scripts/azuredevopsagent.sh"
+            },
+            {
+                "type": "Shell",
+                "name": "DownloadAzDoAgentVmDrainer",
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/master/scripts/azdoagentvmdrainer.sh"
+            }
+        ],
+        "distribute":
+            [
+                {   "type":"ManagedImage",
+                    "imageId": "/subscriptions/<subscriptionID>/resourceGroups/<rgName>/providers/Microsoft.Compute/images/<imageName>",
+                    "location": "<region>",
+                    "runOutputName": "<runOutputName>",
+                    "artifactTags": {
+                        "source": "azVmImageBuilder",
+                        "baseosimg": "ubuntu1804"
+                    }
+                }
+            ]
+        }
+    }

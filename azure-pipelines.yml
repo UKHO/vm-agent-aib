@@ -29,9 +29,11 @@ steps:
           -n agent-linux-aib
   displayName: 'Deploy AIB template'
 
-
-
 - script: |
-    echo Hello World
+    az resource invoke-action \
+     --resource-group $IMAGERESOURCEGROUP \
+     --resource-type  Microsoft.VirtualMachineImages/imageTemplates \
+     -n agent-linux-aib \
+     --action Run 
   displayName: 'Build the image'    
 

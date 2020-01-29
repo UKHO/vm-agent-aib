@@ -15,9 +15,21 @@ steps:
     cat agent-linux-aib.json
   displayName: 'String replace variable names'
 
-- script: |
-    echo Hello World
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'UKHO-TPE'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az resource create \
+          --resource-group $IMAGERESOURCEGROUP \
+          --properties @agent-linux-aib.json \
+          --is-full-object \
+          --resource-type Microsoft.VirtualMachineImages/imageTemplates \
+          -n agent-linux-aib
   displayName: 'Deploy AIB template'
+
+
 
 - script: |
     echo Hello World

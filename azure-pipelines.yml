@@ -1,0 +1,25 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+
+- script: |
+    sed -i -e "s/<subscriptionID>/$SUBSCRIPTIONID/g" agent-linux-aib.json
+    sed -i -e "s/<rgName>/$IMAGERESOURCEGROUP/g" agent-linux-aib.json
+    sed -i -e "s/<region>/$REGION/g" agent-linux-aib.json
+    sed -i -e "s/<imageName>/$IMAGENAME/g" agent-linux-aib.json
+    sed -i -e "s/<runOutputName>/$RUNOUTPUTNAME/g" agent-linux-aib.json
+    cat agent-linux-aib.json
+  displayName: 'String replace variable names'
+
+- script: |
+    echo Hello World
+  displayName: 'Deploy AIB template'
+
+- script: |
+    echo Hello World
+  displayName: 'Build the image'    
+

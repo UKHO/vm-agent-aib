@@ -29,11 +29,28 @@ steps:
           -n agent-linux-aib
   displayName: 'Deploy AIB template'
 
-- script: |
-    az resource invoke-action \
-     --resource-group $IMAGERESOURCEGROUP \
-     --resource-type  Microsoft.VirtualMachineImages/imageTemplates \
-     -n agent-linux-aib \
-     --action Run 
+- task: AzureCLI@2 
+  inputs:
+    azureSubscription: 'UKHO-TPE'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az resource invoke-action \
+        --resource-group $IMAGERESOURCEGROUP \
+        --resource-type  Microsoft.VirtualMachineImages/imageTemplates \
+        -n agent-linux-aib \
+        --action Run 
   displayName: 'Build the image'    
 
+- task: AzureCLI@2 
+  inputs:
+    azureSubscription: 'UKHO-TPE'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az resource delete \
+       --resource-group $IMAGERESOURCEGROUP \
+       --resource-type Microsoft.VirtualMachineImages/imageTemplates \
+       -n agent-linux-aib
+  condition: always()
+  displayName: 'Build the image'    

@@ -5,24 +5,19 @@
     "dependsOn": [],
     "tags": {
         "imagebuilderTemplate": "ubuntu1804"
-            },
+    },
     "properties": {
-
-        "buildTimeoutInMinutes" : 80,
-
-        "vmProfile":
-            {
+        "buildTimeoutInMinutes": 80,
+        "vmProfile": {
             "vmSize": "Standard_D1_v2",
             "osDiskSizeGB": 128
-            },
-
+        },
         "source": {
             "type": "PlatformImage",
-                "publisher": "Canonical",
-                "offer": "UbuntuServer",
-                "sku": "18.04-LTS",
-                "version": "18.04.201903060"
-
+            "publisher": "Canonical",
+            "offer": "UbuntuServer",
+            "sku": "18.04-LTS",
+            "version": "18.04.201903060"
         },
         "customize": [
             {
@@ -61,17 +56,19 @@
                 "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/master/scripts/azdoagentvmdrainer.sh"
             }
         ],
-        "distribute":
-            [
-                {   "type":"ManagedImage",
-                    "imageId": "/subscriptions/<subscriptionID>/resourceGroups/<rgName>/providers/Microsoft.Compute/images/<imageName>",
-                    "location": "<region>",
-                    "runOutputName": "<runOutputName>",
-                    "artifactTags": {
-                        "source": "azVmImageBuilder",
-                        "baseosimg": "ubuntu1804"
-                    }
-                }
-            ]
-        }
+        "distribute": [
+            {
+                "type": "SharedImage",
+                "galleryImageId": "/subscriptions/<subscriptionID>/resourceGroups/<rgName>/providers/Microsoft.Compute/galleries/<sharedImageGalleryName>/images/<imageDefName>",
+                "runOutputName": "<runOutputName>",
+                "artifactTags": {
+                    "source": "azureVmImageBuilder",
+                    "baseosimg": "ubuntu1804"
+                },
+                "replicationRegions": [
+                    "<region>"
+                ]
+            }
+        ]
     }
+}

@@ -10,8 +10,12 @@ steps:
     sed -i -e "s/<subscriptionID>/$SUBSCRIPTIONID/g" agent-linux-aib.json
     sed -i -e "s/<rgName>/$IMAGERESOURCEGROUP/g" agent-linux-aib.json
     sed -i -e "s/<region>/$REGION/g" agent-linux-aib.json
-    sed -i -e "s/<imageName>/$IMAGENAME/g" agent-linux-aib.json
+    sed -i -e "s/<sharedImageGalleryName>/$SHAREDIMAGEGALLERYNAME/g" helloImageTemplateforSIG.json
+    sed -i -e "s/<imageDefName>/$IMAGEDEFNAME/g" agent-linux-aib.json
     sed -i -e "s/<runOutputName>/$RUNOUTPUTNAME/g" agent-linux-aib.json
+
+    sharedImageGalName
+
     cat agent-linux-aib.json
   displayName: 'String replace variable names'
 

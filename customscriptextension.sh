@@ -17,6 +17,11 @@ echo "Start service for agent"
 sleep 20s
 
 echo "########### CONFIGURING DRAINER ###########"
+
+echo "Update agent service file"
+sed -i -e "s/<azdoaccount>/${1}/g" /etc/systemd/system/azurevmagentdrainer.service
+sed -i -e "s/<azdopat>/${2}/g" /etc/systemd/system/azurevmagentdrainer.service
+
 echo "Reload systemd"
 systemctl daemon-reload
 

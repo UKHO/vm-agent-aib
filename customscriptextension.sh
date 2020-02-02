@@ -8,7 +8,7 @@ echo "Configure agent"
 agentName=$(hostname)
 echo "AgentName is ${agentName}"
 cd /usr/lib/agt
-./config.sh --unattended --url https://dev.azure.com/$1 --auth PAT --token $2 --pool $3 --agent "${agentName}" --acceptTeeEula --work _work
+./config.sh --unattended --url https://dev.azure.com/$1 --auth PAT --token $2 --pool "$3" --agent "${agentName}" --acceptTeeEula --work _work
 
 echo "Install service for agent"
 ./svc.sh install
@@ -30,3 +30,5 @@ echo "Enable drainer for restart"
 systemctl enable azurevmagentdrainer.service
 echo "Start drainer for restart"
 systemctl start azurevmagentdrainer.service
+
+sh customscriptextension.sh ukhogov p6nf4e7cgywxx54wpn6wye6iimvu3yw2w5kmdqnfoglc67zp65aa "UKHO Ubuntu 1804"

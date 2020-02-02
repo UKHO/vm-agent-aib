@@ -4,10 +4,11 @@ echo "########### CONFIGURING AGENT ###########"
 echo "Allow agent to run as root"
 export AGENT_ALLOW_RUNASROOT="YES"
 
-echo "Setup agent"
-agentName = hostname
+echo "Configure agent"
+agentName=$(hostname)
+echo "AgentName is ${agentName}"
 cd /usr/lib/agt
-./config.sh --unattended --url https://dev.azure.com/$1 --auth PAT --token $2 --pool $3 --agent $agentName --acceptTeeEula --work _work
+./config.sh --unattended --url https://dev.azure.com/$1 --auth PAT --token $2 --pool $3 --agent "${agentName}" --acceptTeeEula --work _work
 
 echo "Install service for agent"
 ./svc.sh install

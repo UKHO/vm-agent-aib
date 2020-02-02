@@ -5,7 +5,7 @@ export AGENT_ALLOW_RUNASROOT="YES"
 
 echo "Setup agent"
 cd /usr/lib/agt
-./config.sh --unattended --url https://dev.azure.com/$1 --auth PAT --token $2 --pool "$3 Agents" --agent hostname --acceptTeeEula --work _work
+./config.sh --unattended --url https://dev.azure.com/$1 --auth PAT --token $2 --pool "UKHO Ubuntu 1804" --agent hostname --acceptTeeEula --work _work
 
 echo "Install service for agent"
 ./svc.sh install

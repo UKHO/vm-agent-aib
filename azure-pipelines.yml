@@ -1,3 +1,13 @@
+resources:
+  pipelines:
+    - pipeline: AzDoAgentDrainerBuild
+      project: Pipelines
+      source: UKHO.AzDoAgentDrainer
+      trigger:
+        branches:
+          include:
+            - master
+
 trigger:
 - master
 

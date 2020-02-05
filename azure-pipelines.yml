@@ -3,6 +3,8 @@ trigger:
 
 pool: 'UKHO Ubuntu 1804'
 
+container: ukhydrographicoffice/terraform-azure:latest
+
 steps:
 - script: |
     cd ubuntu-agent-vm

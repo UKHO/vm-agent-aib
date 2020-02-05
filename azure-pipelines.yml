@@ -39,7 +39,7 @@ steps:
 
 - task: AzureCLI@2
   inputs:
-    azureSubscription: 'UKHO-TPE'
+    azureSubscription: 'AzDo Live'
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
@@ -54,7 +54,7 @@ steps:
 
 - task: AzureCLI@2 
   inputs:
-    azureSubscription: 'UKHO-TPE'
+    azureSubscription: 'AzDo Live'
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
@@ -67,7 +67,7 @@ steps:
 
 - task: AzureCLI@2 
   inputs:
-    azureSubscription: 'UKHO-TPE'
+    azureSubscription: 'AzDo Live'
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |

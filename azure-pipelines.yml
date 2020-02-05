@@ -43,8 +43,7 @@ steps:
   displayName: 'String replace variable names'
 
 - bash: |
-    az login --service-principal --username "${TERRAFORM-CLIENT-ID}" --password "${TERRAFORM-CLIENT-SECRET}" --tenant "${TERRAFORM-TENANT-ID}"
-    az account set --subscription $SUBSCRIPTIONID
+    az login --service-principal --username "$TERRAFORM-CLIENT-ID" --password "$TERRAFORM-CLIENT-SECRET" --tenant "$TERRAFORM-TENANT-ID"
     cd ubuntu-agent-vm
     az resource create \
       --resource-group $IMAGERESOURCEGROUP \

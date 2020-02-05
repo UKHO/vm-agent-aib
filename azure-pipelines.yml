@@ -11,22 +11,20 @@ resources:
 trigger:
 - master
 
-pool:
-  vmImage: 'ubuntu-latest'
+pool: 'UKHO Ubuntu 1804'
+
+container: ukhydrographicoffice/terraform-azure:latest
 
 steps:
-
 - script: |
-    sed -i -e "s/<subscriptionID>/$SUBSCRIPTIONID/g" agent-linux-aib.json
-    sed -i -e "s/<rgName>/$IMAGERESOURCEGROUP/g" agent-linux-aib.json
-    sed -i -e "s/<region>/$REGION/g" agent-linux-aib.json
-    sed -i -e "s/<sharedImageGalleryName>/$SHAREDIMAGEGALLERYNAME/g" agent-linux-aib.json
-    sed -i -e "s/<imageDefName>/$IMAGEDEFNAME/g" agent-linux-aib.json
-    sed -i -e "s/<runOutputName>/$RUNOUTPUTNAME/g" agent-linux-aib.json
-
-    sharedImageGalName
-
-    cat agent-linux-aib.json
+    cd ubuntu-agent-vm
+    sed -i -e "s/<subscriptionID>/$SUBSCRIPTIONID/g" ubuntu-agent-vm-aib.json
+    sed -i -e "s/<rgName>/$IMAGERESOURCEGROUP/g" ubuntu-agent-vm-aib.json
+    sed -i -e "s/<region>/$REGION/g" ubuntu-agent-vm-aib.json
+    sed -i -e "s/<sharedImageGalleryName>/$SHAREDIMAGEGALLERYNAME/g" ubuntu-agent-vm-aib.json
+    sed -i -e "s/<imageDefName>/$IMAGEDEFNAME/g" ubuntu-agent-vm-aib.json
+    sed -i -e "s/<runOutputName>/$RUNOUTPUTNAME/g" ubuntu-agent-vm-aib.json
+    cat ubuntu-agent-vm-aib.json
   displayName: 'String replace variable names'
 
 - task: AzureCLI@2
@@ -35,12 +33,13 @@ steps:
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
+      cd ubuntu-agent-vm
       az resource create \
           --resource-group $IMAGERESOURCEGROUP \
-          --properties @agent-linux-aib.json \
+          --properties @ubuntu-agent-vm-aib.json \
           --is-full-object \
           --resource-type Microsoft.VirtualMachineImages/imageTemplates \
-          -n agent-linux-aib
+          -n ubuntu-agent-vm-aib
   displayName: 'Deploy AIB template'
 
 - task: AzureCLI@2 
@@ -52,7 +51,7 @@ steps:
       az resource invoke-action \
         --resource-group $IMAGERESOURCEGROUP \
         --resource-type  Microsoft.VirtualMachineImages/imageTemplates \
-        -n agent-linux-aib \
+        -n ubuntu-agent-vm-aib \
         --action Run 
   displayName: 'Build the image'    
 
@@ -65,6 +64,6 @@ steps:
       az resource delete \
        --resource-group $IMAGERESOURCEGROUP \
        --resource-type Microsoft.VirtualMachineImages/imageTemplates \
-       -n agent-linux-aib
+       -n ubuntu-agent-vm-aib
   condition: always()
   displayName: 'Delete the AIB template'    

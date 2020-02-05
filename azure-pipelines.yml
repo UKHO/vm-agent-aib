@@ -20,6 +20,9 @@ trigger:
 
 pr: none
 
+variables:
+- group: AzDO-variables
+
 pool: 'UKHO Ubuntu 1804'
 
 container: ukhydrographicoffice/terraform-azure:latest
@@ -37,20 +40,21 @@ steps:
     cat ubuntu-agent-vm-aib.json
   displayName: 'String replace variable names'
 
-- task: AzureCLI@2
-  inputs:
-    azureSubscription: 'AzDo Live'
-    scriptType: 'bash'
-    scriptLocation: 'inlineScript'
-    inlineScript: |
-      cd ubuntu-agent-vm
-      az resource create \
-          --resource-group $IMAGERESOURCEGROUP \
-          --properties @ubuntu-agent-vm-aib.json \
-          --is-full-object \
-          --resource-type Microsoft.VirtualMachineImages/imageTemplates \
-          -n ubuntu-agent-vm-aib
+- bash: |
+    az login --service-principal --username $TERRAFORM-CLIENT-ID --password $TERRAFORM-CLIENT-SECRET --tenant $TERRAFORM-TENANT-ID
+    az account set --subscription $SUBSCRIPTIONID
+    cd ubuntu-agent-vm
+    az resource create \
+      --resource-group $IMAGERESOURCEGROUP \
+      --properties @ubuntu-agent-vm-aib.json \
+      --is-full-object \
+      --resource-type Microsoft.VirtualMachineImages/imageTemplates \
+      -n ubuntu-agent-vm-aib
   displayName: 'Deploy AIB template'
+  env:
+    TERRAFORM-TENANT-ID: $(TERRAFORM-TENANT-ID)
+    TERRAFORM-CLIENT-ID: $(TERRAFORM-CLIENT-ID)
+    TERRAFORM-CLIENT-SECRET: $(TERRAFORM-CLIENT-SECRET)
 
 - task: AzureCLI@2 
   inputs:

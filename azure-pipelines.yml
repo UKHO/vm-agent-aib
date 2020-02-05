@@ -1,22 +1,18 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'ubuntu-latest'
+pool: 'UKHO Ubuntu 1804'
 
 steps:
-
 - script: |
-    sed -i -e "s/<subscriptionID>/$SUBSCRIPTIONID/g" agent-linux-aib.json
-    sed -i -e "s/<rgName>/$IMAGERESOURCEGROUP/g" agent-linux-aib.json
-    sed -i -e "s/<region>/$REGION/g" agent-linux-aib.json
-    sed -i -e "s/<sharedImageGalleryName>/$SHAREDIMAGEGALLERYNAME/g" agent-linux-aib.json
-    sed -i -e "s/<imageDefName>/$IMAGEDEFNAME/g" agent-linux-aib.json
-    sed -i -e "s/<runOutputName>/$RUNOUTPUTNAME/g" agent-linux-aib.json
-
-    sharedImageGalName
-
-    cat agent-linux-aib.json
+    cd ubuntu-agents
+    sed -i -e "s/<subscriptionID>/$SUBSCRIPTIONID/g" ubuntu-agents.json
+    sed -i -e "s/<rgName>/$IMAGERESOURCEGROUP/g" ubuntu-agents.json
+    sed -i -e "s/<region>/$REGION/g" ubuntu-agents.json
+    sed -i -e "s/<sharedImageGalleryName>/$SHAREDIMAGEGALLERYNAME/g" ubuntu-agents.json
+    sed -i -e "s/<imageDefName>/$IMAGEDEFNAME/g" ubuntu-agents.json
+    sed -i -e "s/<runOutputName>/$RUNOUTPUTNAME/g" ubuntu-agents.json
+    cat ubuntu-agents.json
   displayName: 'String replace variable names'
 
 - task: AzureCLI@2
@@ -25,9 +21,10 @@ steps:
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
+      cd ubuntu-agents
       az resource create \
           --resource-group $IMAGERESOURCEGROUP \
-          --properties @agent-linux-aib.json \
+          --properties @ubuntu-agents.json \
           --is-full-object \
           --resource-type Microsoft.VirtualMachineImages/imageTemplates \
           -n agent-linux-aib

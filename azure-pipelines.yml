@@ -43,7 +43,8 @@ steps:
   displayName: 'String replace variable names'
 
 - bash: |
-    az login --service-principal --username "$TERRAFORM-CLIENT-ID" --password "$TERRAFORM-CLIENT-SECRET" --tenant "$TERRAFORM-TENANT-ID"
+    az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
+    az account set --subscription "$SUBSCRIPTIONID"
     cd ubuntu-agent-vm
     az resource create \
       --resource-group $IMAGERESOURCEGROUP \
@@ -53,9 +54,9 @@ steps:
       -n ubuntu-agent-vm-aib
   displayName: 'Deploy AIB template'
   env:
-    TERRAFORM-TENANT-ID: $(TERRAFORM-TENANT-ID)
-    TERRAFORM-CLIENT-ID: $(TERRAFORM-CLIENT-ID)
-    TERRAFORM-CLIENT-SECRET: $(TERRAFORM-CLIENT-SECRET)
+    TENANTID: $(TERRAFORM-TENANT-ID)
+    CLIENTID: $(TERRAFORM-CLIENT-ID)
+    CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
 
 - task: AzureCLI@2 
   inputs:

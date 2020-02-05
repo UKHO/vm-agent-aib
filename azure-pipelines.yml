@@ -18,6 +18,8 @@ trigger:
     exclude:
     - README.md
 
+pr: none
+
 pool: 'UKHO Ubuntu 1804'
 
 container: ukhydrographicoffice/terraform-azure:latest
@@ -31,12 +33,13 @@ steps:
     sed -i -e "s/<sharedImageGalleryName>/$SHAREDIMAGEGALLERYNAME/g" ubuntu-agent-vm-aib.json
     sed -i -e "s/<imageDefName>/$IMAGEDEFNAME/g" ubuntu-agent-vm-aib.json
     sed -i -e "s/<runOutputName>/$RUNOUTPUTNAME/g" ubuntu-agent-vm-aib.json
+    sed -i -e "s/<replicationRegion>/$REPLICATIONREGION/g" ubuntu-agent-vm-aib.json    
     cat ubuntu-agent-vm-aib.json
   displayName: 'String replace variable names'
 
 - task: AzureCLI@2
   inputs:
-    azureSubscription: 'UKHO-TPE'
+    azureSubscription: 'AzDo Live'
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
@@ -51,7 +54,7 @@ steps:
 
 - task: AzureCLI@2 
   inputs:
-    azureSubscription: 'UKHO-TPE'
+    azureSubscription: 'AzDo Live'
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
@@ -64,7 +67,7 @@ steps:
 
 - task: AzureCLI@2 
   inputs:
-    azureSubscription: 'UKHO-TPE'
+    azureSubscription: 'AzDo Live'
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |

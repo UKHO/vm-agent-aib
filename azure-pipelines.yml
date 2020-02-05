@@ -23,7 +23,9 @@ pr: none
 variables:
 - group: AzDO-variables
 
-pool: 'UKHO Ubuntu 1804'
+# pool: 'UKHO Ubuntu 1804'
+pool:
+  vmimage: 'ubuntu-latest'
 
 container: ukhydrographicoffice/terraform-azure:latest
 

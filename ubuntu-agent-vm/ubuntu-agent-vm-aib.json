@@ -23,37 +23,37 @@
             {
                 "type": "Shell",
                 "name": "InitialConfiguration",
-                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/master/ubuntu-agents/scripts/baseupdates.sh"
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/master/ubuntu-agent-vm/scripts/baseupdates.sh"
             },
             {
                 "type": "Shell",
                 "name": "InstallDocker",
-                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/master/ubuntu-agents/scripts/docker.sh"
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/master/ubuntu-agent-vm/scripts/docker.sh"
             },
             {
                 "type": "Shell",
                 "name": "InstallDockerCompose",
-                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/master/ubuntu-agents/scripts/dockercompose.sh"
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/master/ubuntu-agent-vm/scripts/dockercompose.sh"
             },
             {
                 "type": "Shell",
                 "name": "InstallMaven",
-                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/master/ubuntu-agents/scripts/maven.sh"
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/master/ubuntu-agent-vm/scripts/maven.sh"
             },
             {
                 "type": "Shell",
                 "name": "InstallDotNetCoreSdk3-1",
-                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/master/ubuntu-agents/scripts/netcoresdk3-1.sh"
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/master/ubuntu-agent-vm/scripts/netcoresdk3-1.sh"
             },
             {
                 "type": "Shell",
                 "name": "DownloadAzureDevOpsAgent",
-                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/master/ubuntu-agents/scripts/azuredevopsagent.sh"
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/master/ubuntu-agent-vm/scripts/azuredevopsagent.sh"
             },
             {
                 "type": "Shell",
                 "name": "DownloadAzDoAgentVmDrainer",
-                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/master/ubuntu-agents/scripts/azdoagentvmdrainer.sh"
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/master/ubuntu-agent-vm/scripts/azdoagentvmdrainer.sh"
             }
         ],
         "distribute": [

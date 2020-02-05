@@ -9,7 +9,14 @@ resources:
             - master
 
 trigger:
-- master
+  branches:
+    include:
+      - master
+  paths:
+    include:
+    - '*'
+    exclude:
+    - README.md
 
 pool: 'UKHO Ubuntu 1804'
 

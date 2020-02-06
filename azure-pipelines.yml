@@ -23,9 +23,7 @@ pr: none
 variables:
 - group: AzDO-variables
 
-# pool: 'UKHO Ubuntu 1804'
-pool:
-  vmimage: 'ubuntu-latest'
+pool: 'UKHO Ubuntu 1804'
 
 container: ukhydrographicoffice/terraform-azure:latest
 
@@ -58,18 +56,19 @@ steps:
     CLIENTID: $(TERRAFORM-CLIENT-ID)
     CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
 
-- task: AzureCLI@2 
-  inputs:
-    azureSubscription: 'AzDo Live'
-    scriptType: 'bash'
-    scriptLocation: 'inlineScript'
-    inlineScript: |
-      az resource invoke-action \
-        --resource-group $IMAGERESOURCEGROUP \
-        --resource-type  Microsoft.VirtualMachineImages/imageTemplates \
-        -n ubuntu-agent-vm-aib \
-        --action Run 
-  displayName: 'Build the image'    
+- bash: |
+    az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
+    az account set --subscription "$SUBSCRIPTIONID"
+    az resource invoke-action \
+      --resource-group $IMAGERESOURCEGROUP \
+      --resource-type  Microsoft.VirtualMachineImages/imageTemplates \
+      -n ubuntu-agent-vm-aib \
+      --action Run 
+  displayName: 'Build the image'
+  env:
+    TENANTID: $(TERRAFORM-TENANT-ID)
+    CLIENTID: $(TERRAFORM-CLIENT-ID)
+    CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
 
 - bash: |
     az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"

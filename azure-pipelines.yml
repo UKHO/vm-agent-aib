@@ -71,15 +71,17 @@ steps:
         --action Run 
   displayName: 'Build the image'    
 
-- task: AzureCLI@2 
-  inputs:
-    azureSubscription: 'AzDo Live'
-    scriptType: 'bash'
-    scriptLocation: 'inlineScript'
-    inlineScript: |
-      az resource delete \
-       --resource-group $IMAGERESOURCEGROUP \
-       --resource-type Microsoft.VirtualMachineImages/imageTemplates \
-       -n ubuntu-agent-vm-aib
+- bash: |
+    az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
+    az account set --subscription "$SUBSCRIPTIONID"
+    az resource delete \
+    --resource-group $IMAGERESOURCEGROUP \
+    --resource-type Microsoft.VirtualMachineImages/imageTemplates \
+    -n ubuntu-agent-vm-aib
   condition: always()
-  displayName: 'Delete the AIB template'    
+  displayName: 'Delete the AIB template'
+  env:
+    TENANTID: $(TERRAFORM-TENANT-ID)
+    CLIENTID: $(TERRAFORM-CLIENT-ID)
+    CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
+

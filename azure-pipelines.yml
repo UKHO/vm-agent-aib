@@ -27,9 +27,6 @@ pool: 'UKHO Ubuntu 1804'
 
 container: ukhydrographicoffice/terraform-azure:latest
 
-timeoutInMinutes: 120 
-cancelTimeoutInMinutes: 15
-
 steps:
 - script: |
     cd ubuntu-agent-vm
@@ -54,6 +51,7 @@ steps:
       --resource-type Microsoft.VirtualMachineImages/imageTemplates \
       -n ubuntu-agent-vm-aib
   displayName: 'Deploy AIB template'
+  timeoutInMinutes: 30
   env:
     TENANTID: $(TERRAFORM-TENANT-ID)
     CLIENTID: $(TERRAFORM-CLIENT-ID)
@@ -68,10 +66,12 @@ steps:
       -n ubuntu-agent-vm-aib \
       --action Run 
   displayName: 'Build the image'
+  timeoutInMinutes: 120
   env:
     TENANTID: $(TERRAFORM-TENANT-ID)
     CLIENTID: $(TERRAFORM-CLIENT-ID)
     CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
+  
 
 - bash: |
     az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
@@ -82,6 +82,7 @@ steps:
     -n ubuntu-agent-vm-aib
   condition: always()
   displayName: 'Delete the AIB template'
+  timeoutInMinutes: 30
   env:
     TENANTID: $(TERRAFORM-TENANT-ID)
     CLIENTID: $(TERRAFORM-CLIENT-ID)

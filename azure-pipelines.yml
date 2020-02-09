@@ -20,6 +20,9 @@ trigger:
 
 pr: none
 
+variables:
+- group: AzDO-variables
+
 pool: 'UKHO Ubuntu 1804'
 
 container: ukhydrographicoffice/terraform-azure:latest
@@ -37,43 +40,51 @@ steps:
     cat ubuntu-agent-vm-aib.json
   displayName: 'String replace variable names'
 
-- task: AzureCLI@2
-  inputs:
-    azureSubscription: 'AzDo Live'
-    scriptType: 'bash'
-    scriptLocation: 'inlineScript'
-    inlineScript: |
-      cd ubuntu-agent-vm
-      az resource create \
-          --resource-group $IMAGERESOURCEGROUP \
-          --properties @ubuntu-agent-vm-aib.json \
-          --is-full-object \
-          --resource-type Microsoft.VirtualMachineImages/imageTemplates \
-          -n ubuntu-agent-vm-aib
+- bash: |
+    az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
+    az account set --subscription "$SUBSCRIPTIONID"
+    cd ubuntu-agent-vm
+    az resource create \
+      --resource-group $IMAGERESOURCEGROUP \
+      --properties @ubuntu-agent-vm-aib.json \
+      --is-full-object \
+      --resource-type Microsoft.VirtualMachineImages/imageTemplates \
+      -n ubuntu-agent-vm-aib
   displayName: 'Deploy AIB template'
+  timeoutInMinutes: 30
+  env:
+    TENANTID: $(TERRAFORM-TENANT-ID)
+    CLIENTID: $(TERRAFORM-CLIENT-ID)
+    CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
 
-- task: AzureCLI@2 
-  inputs:
-    azureSubscription: 'AzDo Live'
-    scriptType: 'bash'
-    scriptLocation: 'inlineScript'
-    inlineScript: |
-      az resource invoke-action \
-        --resource-group $IMAGERESOURCEGROUP \
-        --resource-type  Microsoft.VirtualMachineImages/imageTemplates \
-        -n ubuntu-agent-vm-aib \
-        --action Run 
-  displayName: 'Build the image'    
+- bash: |
+    az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
+    az account set --subscription "$SUBSCRIPTIONID"
+    az resource invoke-action \
+      --resource-group $IMAGERESOURCEGROUP \
+      --resource-type  Microsoft.VirtualMachineImages/imageTemplates \
+      -n ubuntu-agent-vm-aib \
+      --action Run 
+  displayName: 'Build the image'
+  timeoutInMinutes: 120
+  env:
+    TENANTID: $(TERRAFORM-TENANT-ID)
+    CLIENTID: $(TERRAFORM-CLIENT-ID)
+    CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
+  
 
-- task: AzureCLI@2 
-  inputs:
-    azureSubscription: 'AzDo Live'
-    scriptType: 'bash'
-    scriptLocation: 'inlineScript'
-    inlineScript: |
-      az resource delete \
-       --resource-group $IMAGERESOURCEGROUP \
-       --resource-type Microsoft.VirtualMachineImages/imageTemplates \
-       -n ubuntu-agent-vm-aib
+- bash: |
+    az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
+    az account set --subscription "$SUBSCRIPTIONID"
+    az resource delete \
+    --resource-group $IMAGERESOURCEGROUP \
+    --resource-type Microsoft.VirtualMachineImages/imageTemplates \
+    -n ubuntu-agent-vm-aib
   condition: always()
-  displayName: 'Delete the AIB template'    
+  displayName: 'Delete the AIB template'
+  timeoutInMinutes: 30
+  env:
+    TENANTID: $(TERRAFORM-TENANT-ID)
+    CLIENTID: $(TERRAFORM-CLIENT-ID)
+    CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
+

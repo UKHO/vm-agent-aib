@@ -42,11 +42,6 @@
             },
             {
                 "type": "Shell",
-                "name": "InstallPython",
-                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/master/ubuntu-agent-vm/scripts/python.sh"
-            },
-            {
-                "type": "Shell",
                 "name": "InstallDotNetCoreSdk3-1",
                 "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/master/ubuntu-agent-vm/scripts/netcoresdk3-1.sh"
             },

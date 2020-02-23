@@ -1,5 +1,15 @@
 #!/bin/bash
 
+echo "########### CONFIGURING SWAP FILE ###########"
+sed -i 's/# ResourceDisk.Format=n/ResourceDisk.Format=y/' /etc/waagent.conf
+sed -i 's/# ResourceDisk.EnableSwap=n/ResourceDisk.EnableSwap=y/' /etc/waagent.conf
+sed -i 's/# ResourceDisk.SwapSizeMB=0/ResourceDisk.SwapSizeMB=8192/' /etc/waagent.conf
+
+umount /mnt
+service walinuxagent restart
+
+sleep 20s
+
 echo "########### CONFIGURING AGENT ###########"
 echo "Allow agent to run as root"
 export AGENT_ALLOW_RUNASROOT="YES"

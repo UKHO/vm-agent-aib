@@ -13,11 +13,10 @@ trigger:
     include:
       - master
   paths:
-    include:
-    - '*'
     exclude:
     - README.md
     - CODEOWNERS
+    - customscriptextension.sh
 
 pr: none
 

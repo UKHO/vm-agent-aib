@@ -34,24 +34,24 @@ $path = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
 Set-Location $dcpath
 
 ## update
-## .\dependency-check.bat --updateonly
+.\dependency-check.bat --updateonly
 
 ## set acl
 $user = "NT AUTHORITY\NETWORK SERVICE"
-##$cachepath = "C:\tools\$dcversion\dependency-check\data\cache"
-##$acl = Get-Acl $cachepath
+$cachepath = "C:\tools\$dcversion\dependency-check\data\cache"
+$acl = Get-Acl $cachepath
 
-##$AccessRule = New-Object System.Security.AccessControl.FileSystemAccessRule($user,"FullControl","Allow")
+$AccessRule = New-Object System.Security.AccessControl.FileSystemAccessRule($user,"FullControl","Allow")
 
-##$acl.SetAccessRule($AccessRule)
+$acl.SetAccessRule($AccessRule)
 
-##$acl | Set-Acl $cachepath
+$acl | Set-Acl $cachepath
 
-##Get-ChildItem $cachepath -recurse -Force |% {
-##    $ACLFile = Get-Acl $_.fullname
-##    $ACLFile.SetAccessRule($AccessRule)
-##    $ACLfile | Set-Acl -Path $_.fullname
-##}
+Get-ChildItem $cachepath -recurse -Force |% {
+    $ACLFile = Get-Acl $_.fullname
+    $ACLFile.SetAccessRule($AccessRule)
+    $ACLfile | Set-Acl -Path $_.fullname
+}
 
 # Setup vsts agent
 $data = Invoke-RestMethod -Uri https://api.github.com/repos/microsoft/azure-pipelines-agent/releases/latest | Select Name

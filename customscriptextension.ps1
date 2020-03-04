@@ -5,11 +5,8 @@ $account,
 $PAT,
 [Parameter(Mandatory)]
 $PoolName,
-[Parameter(Mandatory)]
-$ComputerName,
 $AdminAccount,
 $AdminPassword,
-$count = 1,
 $PartitionSize = 128
 )
 
@@ -69,7 +66,7 @@ Set-Location C:\agt
 
 wget "https://vstsagentpackage.azureedge.net/agent/$agentVersion/$zip" -OutFile ./$zip
 
-$agentName = "$ComputerName"
+$agentName = "$env:ComputerName"
     
 Expand-Archive -Path ./$zip -DestinationPath .
         

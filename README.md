@@ -1,4 +1,4 @@
-# Ubuntu Agent VM image
+# Ubuntu Agent VM image [![Build Status](https://ukhogov.visualstudio.com/Digital%20Operations/_apis/build/status/UKHO.vm-agent-aib?branchName=master)](https://ukhogov.visualstudio.com/Digital%20Operations/_build/latest?definitionId=180&branchName=master)
 
 Uses the [Azure Image Builder](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/image-builder-overview) to create an image for the UKHO flavour Ubuntu Agents which is  distributed to a [shared image gallery](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/shared-image-galleries).
 
@@ -27,12 +27,16 @@ The build is also triggered by the completion of the [drainer](https://github.co
   - Ensure you ONLY affect one resource. Do not create a script that adds multiple resources.
 - Add the script to the `customize` array of  [ubuntu-agent-vm-aib.json](ubuntu-agent-vm/ubuntu-agent-vm-aib.json) following the same pattern as the other shell scripts
   - These scripts are executed in order. If you have a dependency on a earlier resource, your script must be after that resource
-- Push changes as a PR.
+- Push changes as a PR
+- On merge to master, a new image is built and distributed. This takes approximently 45 minutes
+- DDC will then update the agents to use the new image, this will take up to half an hour.
 
 ### Edit an exisiting resource
 
 - Find and update the relevant shell script under [ubuntu-agent-vm/scripts](ubuntu-agent-vm/scripts)
 - Make changes and push as a PR
+- On merge to master, a new image is built and distributed. This takes approximently 45 minutes
+- DDC will then update the agents to use the new image, this will take up to half an hour.
 
 ## Deploying/Moving the Image Builder in a subscription
 

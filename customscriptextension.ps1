@@ -70,6 +70,6 @@ $agentName = "$env:ComputerName"
     
 Expand-Archive -Path ./$zip -DestinationPath .
         
-.\config.cmd --unattended --url https://dev.azure.com/$account --auth PAT --token $PAT --pool "$PoolName" --agent "$agentName" --runAsService --windowsLogonAccount "$AdminAccount" --windowsLogonPassword "$AdminPassword"
+.\config.cmd --unattended --url https://dev.azure.com/$account --auth PAT --token $PAT --pool "$PoolName" --agent "$agentName" --runAsService #--windowsLogonAccount "$AdminAccount" --windowsLogonPassword "$AdminPassword"
 
 Restart-Computer

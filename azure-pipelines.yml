@@ -17,7 +17,9 @@ trigger:
     - README.md
     - CODEOWNERS
     - customscriptextension.sh
-
+    - azure-pipelines.yml
+    - customscriptextension.ps1
+    
 schedules:
 - cron: "0 10 * * 2"
   displayName: Weekly Build

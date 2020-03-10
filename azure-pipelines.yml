@@ -18,6 +18,14 @@ trigger:
     - CODEOWNERS
     - customscriptextension.sh
 
+schedules:
+- cron: "0 10 * * 2"
+  displayName: Weekly Build
+  branches:
+    include:
+    - master
+  always: true
+
 pr: none
 
 variables:

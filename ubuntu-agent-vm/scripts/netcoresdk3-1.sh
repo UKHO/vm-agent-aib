@@ -8,4 +8,4 @@ apt-get install -y apt-transport-https
 apt-get update
 apt-get install -y dotnet-sdk-3.1
 
-export DOTNET_CLI_HOME="/tmp/DOTNET_CLI_HOME"
+export DOTNET_CLI_HOME="/tmp/dotnet"

@@ -50,6 +50,7 @@ jobs:
         sed -i -e "s/<imageDefName>/$IMAGEDEFNAME/g" ubuntu-agent-vm-aib.json
         sed -i -e "s/<runOutputName>/$RUNOUTPUTNAME/g" ubuntu-agent-vm-aib.json
         sed -i -e "s/<replicationRegion>/$REPLICATIONREGION/g" ubuntu-agent-vm-aib.json    
+        sed -i -e "s/<branchname>/$(Build.SourceBranchName)/g" ubuntu-agent-vm-aib.json    
         cat ubuntu-agent-vm-aib.json
       displayName: 'String replace variable names'
 

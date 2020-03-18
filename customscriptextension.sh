@@ -10,6 +10,32 @@ service walinuxagent restart
 
 sleep 20s
 
+echo '########### SETUP NVD DC ###########'
+mountpoint="owaspdependencycheck"
+storageaccountname=$4
+storageaccountfileshare="owaspdependencycheck"
+storageaccountuser=$5
+storageaccountpassword=$6
+
+echo "${storageaccountname}"
+
+echo "${storageaccountuser}"
+
+mkdir /mnt/${mountpoint}
+if [ ! -d "/etc/smbcredentials" ]; then
+mkdir /etc/smbcredentials
+fi
+if [ ! -f "/etc/smbcredentials/${storageaccountuser}.cred" ]; then
+    echo "username=${storageaccountuser}" >> /etc/smbcredentials/${storageaccountuser}.cred
+    echo "password=${storageaccountpassword}" >> /etc/smbcredentials/${storageaccountuser}.cred
+fi
+chmod 600 /etc/smbcredentials/${storageaccountuser}.cred
+
+echo "//${storageaccountname}.file.core.windows.net/${storageaccountfileshare} /mnt/${mountpoint} cifs nofail,vers=3.0,credentials=/etc/smbcredentials/${storageaccountuser}.cred,dir_mode=0777,file_mode=0777,serverino" >> /etc/fstab
+mount -t cifs //${storageaccountname}.file.core.windows.net/${storageaccountfileshare} /mnt/${mountpoint} -o vers=3.0,credentials=/etc/smbcredentials/${storageaccountuser}.cred,dir_mode=0777,file_mode=0777,serverino
+
+export PATH=$PATH:/mnt/${mountpoint}/dependency-check/bin
+
 echo "########### CONFIGURING AGENT ###########"
 echo "Allow agent to run as root"
 export AGENT_ALLOW_RUNASROOT="YES"

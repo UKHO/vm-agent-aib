@@ -58,7 +58,7 @@ echo Owner="UKHO">>.env
 
 if [[ ${agentName} == *"linux-c"* ]];
 then
-    echo CANARY="YES" >> .env
+    echo CANARY="YES">>.env
 fi
 
 echo "Start service for agent"

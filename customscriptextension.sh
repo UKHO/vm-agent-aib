@@ -23,14 +23,16 @@ echo "${storageaccountuser}"
 
 mkdir /mnt/${mountpoint}
 
-if [ ! -d "/etc/smbcredentials" ]; then
-mkdir /etc/smbcredentials
-fi
-if [ ! -f "/etc/smbcredentials/${storageaccountuser}.cred" ]; then
-    echo "username=${storageaccountuser}" >> /etc/smbcredentials/${storageaccountuser}.cred
-    echo "password=${storageaccountpassword}" >> /etc/smbcredentials/${storageaccountuser}.cred
-fi
-chmod 600 /etc/smbcredentials/${storageaccountuser}.cred
+install -d /etc/smbcredentials
+
+fifo=$(mktemp)
+mkfifo ${fifo}
+install --mode=600 ${fifo} "/etc/smbcredentials/${storageaccountuser}.cred" &
+cat <<EOF > ${fifo}
+username=${storageaccountuser}
+password=${storageaccountpassword}
+EOF
+rm ${fifo}
 
 echo "//${storageaccountname}.file.core.windows.net/${storageaccountfileshare} /mnt/${mountpoint} cifs nofail,vers=3.0,credentials=/etc/smbcredentials/${storageaccountuser}.cred,dir_mode=0777,file_mode=0777,serverino" >> /etc/fstab
 mount -t cifs //${storageaccountname}.file.core.windows.net/${storageaccountfileshare} /mnt/${mountpoint} -o vers=3.0,credentials=/etc/smbcredentials/${storageaccountuser}.cred,dir_mode=0777,file_mode=0777,serverino

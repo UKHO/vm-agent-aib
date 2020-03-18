@@ -56,7 +56,9 @@ echo "Install service for agent"
 
 echo Owner="UKHO">>.env
 
-if [[ ${agentName} == *"linux-c"* ]];
+canprefix="linux-c"
+
+if [ -z "${agentName##*$canprefix*}" ];
 then
     echo CANARY="YES">>.env
 fi

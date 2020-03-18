@@ -23,7 +23,7 @@ echo "${storageaccountuser}"
 
 mkdir /mnt/${mountpoint}
 if [ ! -d "/etc/smbcredentials" ]; then
-mkdir /etc/smbcredentials
+    mkdir /etc/smbcredentials
 fi
 if [ ! -f "/etc/smbcredentials/${storageaccountuser}.cred" ]; then
     echo "username=${storageaccountuser}" >> /etc/smbcredentials/${storageaccountuser}.cred

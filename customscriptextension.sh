@@ -47,19 +47,18 @@ echo "Configure agent"
 agentName=$(hostname)
 echo "AgentName is ${agentName}"
 
-touch /etc/profile.d/capabilities.sh
-
-if [[ ${agentName} == "linux-c"* ]];
-then
-    echo export CANARY="${canary}" >> /etc/profile.d/capabilities.sh;
-fi
-
 cd /usr/lib/agt
 
 ./config.sh --unattended --url https://dev.azure.com/$1 --auth PAT --token $2 --pool "$3" --agent "${agentName}" --acceptTeeEula --work _work
 
 echo "Install service for agent"
 ./svc.sh install
+
+if [[ ${agentName} == "linux-c"* ]];
+then
+    echo CANARY="YES" >> .env
+fi
+
 echo "Start service for agent"
 ./svc.sh start
 

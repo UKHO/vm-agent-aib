@@ -48,7 +48,11 @@ agentName=$(hostname)
 echo "AgentName is ${agentName}"
 
 touch /etc/profile.d/capabilities.sh
-echo export CANARY="${agentName}" >> /etc/profile.d/capabilities.sh
+
+if [[ ${agentName} == "linux-c"* ]];
+then
+    echo export CANARY="${canary}" >> /etc/profile.d/capabilities.sh;
+fi
 
 cd /usr/lib/agt
 

@@ -34,7 +34,7 @@ chmod 600 /etc/smbcredentials/${storageaccountuser}.cred
 echo "//${storageaccountname}.file.core.windows.net/${storageaccountfileshare} /mnt/${mountpoint} cifs nofail,vers=3.0,credentials=/etc/smbcredentials/${storageaccountuser}.cred,dir_mode=0777,file_mode=0777,serverino" >> /etc/fstab
 mount -t cifs //${storageaccountname}.file.core.windows.net/${storageaccountfileshare} /mnt/${mountpoint} -o vers=3.0,credentials=/etc/smbcredentials/${storageaccountuser}.cred,dir_mode=0777,file_mode=0777,serverino
 
-export PATH=$PATH:/mnt/${mountpoint}/dependency-check/bin
+export PATH=${PATH}:/mnt/${mountpoint}/dependency-check/bin
 
 echo "########### CONFIGURING AGENT ###########"
 echo "Allow agent to run as root"

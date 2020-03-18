@@ -54,6 +54,8 @@ cd /usr/lib/agt
 echo "Install service for agent"
 ./svc.sh install
 
+echo Owner="UKHO">>.env
+
 if [[ ${agentName} == "linux-c"* ]];
 then
     echo CANARY="YES" >> .env

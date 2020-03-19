@@ -20,16 +20,16 @@ Resize-Partition -DiskNumber 0 -PartitionNumer 2 -Size ($size)
 Write-Information "###### Get latest NVD ######"
 # Add nvd dc
 # Save the password so the drive will persist on reboot
-Invoke-Expression -Command "cmdkey /add:$using:owaspStorageAccount.file.core.windows.net /user:AZURE\$using:owaspStorageAccount /pass:$using:owaspPassword"
+Invoke-Expression -Command "cmdkey /add:$owaspStorageAccount.file.core.windows.net /user:AZURE\$owaspStorageAccount /pass:$owaspPassword"
 
 # Mount the drive
+#net use Z: \\$owaspStorageAccount.file.core.windows.net\owaspdependencycheck $owaspPassword /user:Azure\$owaspStorageAccount
 New-PSDrive -Name Z -PSProvider FileSystem -Root "\\$owaspStorageAccount.file.core.windows.net\owaspdependencycheck" -Persist
 
 New-Item C:\dependency-check -ItemType Directory
 
 Copy-Item -Path Z:\dependency-check\* -Destination C:\dependency-check -Recurse
 
-Remove-PSDrive Z
 
 Write-Information "###### ADD dc to path ######"
 # Save the password so the drive will persist on reboot
@@ -78,4 +78,4 @@ Expand-Archive -Path ./$zip -DestinationPath .
 
 $binaryPath = "dotnet $installPath\AzureVmAgentsService.dll --drainer:uri=https://dev.azure.com/$account --drainer:pat=$PAT"
 
-New-Service -Name "AzDODrainer" -DisplayName "AzDO Drainer" -BinaryPathName $binaryPath -StartupType Automatic
+Invoke-Command -ScriptBlock { $using:binaryPath }

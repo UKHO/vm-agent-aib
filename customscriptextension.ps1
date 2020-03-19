@@ -1,62 +1,52 @@
 param(
-[Parameter(Mandatory)]
-$account,
-[Parameter(Mandatory)]
-$PAT,
-[Parameter(Mandatory)]
-$PoolName,
-$AdminAccount,
-$AdminPassword,
-$PartitionSize = 128
+    [Parameter(Mandatory)]
+    $account,
+    [Parameter(Mandatory)]
+    $PAT,
+    [Parameter(Mandatory)]
+    $PoolName,
+    [Parameter(Mandatory)]
+    $owaspStorageAccount,
+    [Parameter(Mandatory)]
+    $owaspPassword,
+    $PartitionSize = 128
+
 )
 
 $size = $PartionSize + "GB"
 
 Resize-Partition -DiskNumber 0 -PartitionNumer 2 -Size ($size)
 
-# Setup NVD
-New-Item C:\tools -ItemType Directory
+Write-Information "###### Get latest NVD ######"
+# Add nvd dc
+# Save the password so the drive will persist on reboot
+Invoke-Expression -Command "cmdkey /add:$owaspStorageAccount.file.core.windows.net /user:AZURE\$owaspStorageAccount /pass:$owaspPassword"
 
-Set-Location C:\tools
-$dcversion = "dependency-check-5.1.0-release"
-$dczip = "$dcversion.zip"
+# Mount the drive
+#net use Z: \\$owaspStorageAccount.file.core.windows.net\owaspdependencycheck $owaspPassword /user:Azure\$owaspStorageAccount
+New-PSDrive -Name Z -PSProvider FileSystem -Root "\\$owaspStorageAccount.file.core.windows.net\owaspdependencycheck" -Persist
 
-## Get zip
-wget https://dl.bintray.com/jeremy-long/owasp/$dczip -OutFile $dczip
+New-Item C:\dependency-check -ItemType Directory
 
-Expand-Archive -Path ./$dczip
+Copy-Item -Path Z:\dependency-check\* -Destination C:\dependency-check -Recurse
 
-$dcpath = "C:\tools\$dcversion\dependency-check\bin"
+
+Write-Information "###### ADD dc to path ######"
+# Save the password so the drive will persist on reboot
+$dcpath = "C:\dependency-check\bin"
 
 $path = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
 [System.Environment]::SetEnvironmentVariable("Path", $path + ";$dcpath", "Machine")
 
-Set-Location $dcpath
-
-## update
-.\dependency-check.bat --updateonly
-
-## set acl
-$user = "NT AUTHORITY\NETWORK SERVICE"
-$cachepath = "C:\tools\$dcversion\dependency-check\data\cache"
-$acl = Get-Acl $cachepath
-
-$AccessRule = New-Object System.Security.AccessControl.FileSystemAccessRule($user,"FullControl","Allow")
-
-$acl.SetAccessRule($AccessRule)
-
-$acl | Set-Acl $cachepath
-
-Get-ChildItem $cachepath -recurse -Force |% {
-    $ACLFile = Get-Acl $_.fullname
-    $ACLFile.SetAccessRule($AccessRule)
-    $ACLfile | Set-Acl -Path $_.fullname
+Write-Information "###### Check canary Capability ######"
+if ($env:ComputerName -like "win19-c*") {
+    [System.Environment]::SetEnvironmentVariable("CANARY", "Yes", "Machine")
 }
 
-# Setup vsts agent
+Write-Information "###### Setup vsts agent ######"
 $data = Invoke-RestMethod -Uri https://api.github.com/repos/microsoft/azure-pipelines-agent/releases/latest | Select Name
 
-$agentVersion = $data.Name.replace('v','')
+$agentVersion = $data.Name.replace('v', '')
 
 $zip = "vsts-agent-win-x64-$agentVersion.zip"
 
@@ -70,6 +60,20 @@ $agentName = "$env:ComputerName"
     
 Expand-Archive -Path ./$zip -DestinationPath .
         
-.\config.cmd --unattended --url https://dev.azure.com/$account --auth PAT --token $PAT --pool "$PoolName" --agent "$agentName" --runAsService #--windowsLogonAccount "$AdminAccount" --windowsLogonPassword "$AdminPassword"
+.\config.cmd --unattended --url https://dev.azure.com/$account --auth PAT --token $PAT --pool "$PoolName" --agent "$agentName" --runAsService
 
-Restart-Computer
+Write-Information "###### INSTALL DRAINER ######"
+
+$installPath = "C:\drainer"
+
+New-Item $installPath -ItemType Directory
+
+Set-Location $installPath
+
+$zip = "azurevmagentservice.zip"
+
+wget "https://github.com/UKHO/AzDoAgentDrainer/releases/latest/download/azurevmagentservice.zip" -OutFile ./$zip
+
+Expand-Archive -Path ./$zip -DestinationPath .
+
+dotnet $installPath\AzureVmAgentsService.dll --drainer:uri=https://dev.azure.com/$account --drainer:pat=$PAT

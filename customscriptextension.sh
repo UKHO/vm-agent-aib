@@ -10,6 +10,35 @@ service walinuxagent restart
 
 sleep 20s
 
+echo '########### SETUP NVD DC ###########'
+mountpoint="owaspdependencycheck"
+storageaccountname=$4
+storageaccountfileshare="owaspdependencycheck"
+storageaccountuser=$5
+storageaccountpassword=$6
+
+echo "${storageaccountname}"
+
+echo "${storageaccountuser}"
+
+mkdir /mnt/${mountpoint}
+
+install -d /etc/smbcredentials
+
+fifo=$(mktemp)
+mkfifo ${fifo}
+install --mode=600 ${fifo} "/etc/smbcredentials/${storageaccountuser}.cred" &
+cat <<EOF > ${fifo}
+username=${storageaccountuser}
+password=${storageaccountpassword}
+EOF
+rm ${fifo}
+
+echo "//${storageaccountname}.file.core.windows.net/${storageaccountfileshare} /mnt/${mountpoint} cifs nofail,vers=3.0,credentials=/etc/smbcredentials/${storageaccountuser}.cred,dir_mode=0777,file_mode=0777,serverino" >> /etc/fstab
+mount -t cifs //${storageaccountname}.file.core.windows.net/${storageaccountfileshare} /mnt/${mountpoint} -o vers=3.0,credentials=/etc/smbcredentials/${storageaccountuser}.cred,dir_mode=0777,file_mode=0777,serverino
+
+export PATH=$PATH:/mnt/${mountpoint}/dependency-check/bin
+
 echo "########### CONFIGURING AGENT ###########"
 echo "Allow agent to run as root"
 export AGENT_ALLOW_RUNASROOT="YES"
@@ -17,11 +46,23 @@ export AGENT_ALLOW_RUNASROOT="YES"
 echo "Configure agent"
 agentName=$(hostname)
 echo "AgentName is ${agentName}"
+
 cd /usr/lib/agt
+
 ./config.sh --unattended --url https://dev.azure.com/$1 --auth PAT --token $2 --pool "$3" --agent "${agentName}" --acceptTeeEula --work _work
 
 echo "Install service for agent"
 ./svc.sh install
+
+echo Owner="UKHO">>.env
+
+canprefix="linux-c"
+
+if [ -z "${agentName##*$canprefix*}" ];
+then
+    echo CANARY="YES">>.env
+fi
+
 echo "Start service for agent"
 ./svc.sh start
 

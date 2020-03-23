@@ -76,4 +76,4 @@ wget "https://github.com/UKHO/AzDoAgentDrainer/releases/latest/download/azurevma
 
 Expand-Archive -Path ./$zip -DestinationPath .
 
-dotnet $installPath\AzureVmAgentsService.dll --drainer:uri=https://dev.azure.com/$account --drainer:pat=$PAT
+#dotnet $installPath\AzureVmAgentsService.dll --drainer:uri=https://dev.azure.com/$account --drainer:pat=$PAT

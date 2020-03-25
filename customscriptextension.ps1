@@ -64,16 +64,16 @@ Expand-Archive -Path ./$zip -DestinationPath .
 
 Write-Information "###### INSTALL DRAINER ######"
 
+choco install nssm -y
+
 $installPath = "C:\drainer"
-
 New-Item $installPath -ItemType Directory
-
 Set-Location $installPath
-
 $zip = "azurevmagentservice.zip"
-
 wget "https://github.com/UKHO/AzDoAgentDrainer/releases/latest/download/azurevmagentservice.zip" -OutFile ./$zip
-
 Expand-Archive -Path ./$zip -DestinationPath .
 
-#dotnet $installPath\AzureVmAgentsService.dll --drainer:uri=https://dev.azure.com/$account --drainer:pat=$PAT
+$scriptName = "runAzureVMService.bat"
+New-Item -Path . -Name $scriptName -ItemType "file" -Value "dotnet AzureVmAgentsService.dll --drainer:uri=https://dev.azure.com/$account --drainer:pat=$PAT"
+nssm install AzureVmAgentsService "$installPath\$scriptName"
+nssm start AzureVmAgentsService

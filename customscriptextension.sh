@@ -37,7 +37,37 @@ rm ${fifo}
 echo "//${storageaccountname}.file.core.windows.net/${storageaccountfileshare} /mnt/${mountpoint} cifs nofail,vers=3.0,credentials=/etc/smbcredentials/${storageaccountuser}.cred,dir_mode=0777,file_mode=0777,serverino" >> /etc/fstab
 mount -t cifs //${storageaccountname}.file.core.windows.net/${storageaccountfileshare} /mnt/${mountpoint} -o vers=3.0,credentials=/etc/smbcredentials/${storageaccountuser}.cred,dir_mode=0777,file_mode=0777,serverino
 
+echo "########### EXPORT PATH ########"
 export PATH=$PATH:/mnt/${mountpoint}/dependency-check/bin
+
+echo '########### SETUP coverity ###########'
+mountpoint="coverity"
+storageaccountname=$7
+storageaccountfileshare="coverity"
+storageaccountuser=$8
+storageaccountpassword=$9
+
+echo "${storageaccountname}"
+
+echo "${storageaccountuser}"
+
+mkdir /mnt/${mountpoint}
+
+fifo=$(mktemp)
+mkfifo ${fifo}
+install --mode=600 ${fifo} "/etc/smbcredentials/${storageaccountuser}.cred" &
+cat <<EOF > ${fifo}
+username=${storageaccountuser}
+password=${storageaccountpassword}
+EOF
+rm ${fifo}
+
+echo "//${storageaccountname}.file.core.windows.net/${storageaccountfileshare} /mnt/${mountpoint} cifs nofail,vers=3.0,credentials=/etc/smbcredentials/${storageaccountuser}.cred,dir_mode=0777,file_mode=0777,serverino" >> /etc/fstab
+mount -t cifs //${storageaccountname}.file.core.windows.net/${storageaccountfileshare} /mnt/${mountpoint} -o vers=3.0,credentials=/etc/smbcredentials/${storageaccountuser}.cred,dir_mode=0777,file_mode=0777,serverino
+
+echo "########### EXPORT PATH ########"
+export PATH=$PATH:/mnt/${mountpoint}/cov-analysis-linux-2019.12/bin
+export COVERITY_TOOL_HOME=/mnt/${mountpoint}/cov-analysis-linux-2019.12
 
 echo "########### CONFIGURING AGENT ###########"
 echo "Allow agent to run as root"

@@ -66,8 +66,8 @@ echo "//${storageaccountname}.file.core.windows.net/${storageaccountfileshare} /
 mount -t cifs //${storageaccountname}.file.core.windows.net/${storageaccountfileshare} /mnt/${mountpoint} -o vers=3.0,credentials=/etc/smbcredentials/${storageaccountuser}.cred,dir_mode=0777,file_mode=0777,serverino
 
 echo "########### EXPORT PATH ########"
-export PATH=$PATH:/mnt/${mountpoint}/cov-analysis-linux-2019.12/bin
-export COVERITY_TOOL_HOME=/mnt/${mountpoint}/cov-analysis-linux-2019.12
+export PATH=$PATH:/mnt/${mountpoint}/cov-analysis-linux64-2019.12/bin
+export COVERITY_TOOL_HOME=/mnt/${mountpoint}/cov-analysis-linux64-2019.12
 
 echo "########### CONFIGURING AGENT ###########"
 echo "Allow agent to run as root"

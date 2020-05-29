@@ -60,7 +60,7 @@ $agentName = "$env:ComputerName"
     
 Expand-Archive -Path ./$zip -DestinationPath .
         
-.\config.cmd --unattended --url https://dev.azure.com/$account --auth PAT --token $PAT --pool "$PoolName" --agent "$agentName" --runAsService
+.\config.cmd --unattended --url https://dev.azure.com/$account --auth PAT --token $PAT --pool "$PoolName" --agent "$agentName" --runAsService --windowsLogonAccount "NT AUTHORITY\SYSTEM"
 
 Write-Information "###### INSTALL DRAINER ######"
 

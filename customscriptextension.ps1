@@ -59,8 +59,9 @@ wget "https://vstsagentpackage.azureedge.net/agent/$agentVersion/$zip" -OutFile 
 $agentName = "$env:ComputerName"
     
 Expand-Archive -Path ./$zip -DestinationPath .
-        
-.\config.cmd --unattended --url https://dev.azure.com/$account --auth PAT --token $PAT --pool "$PoolName" --agent "$agentName" --runAsService --windowsLogonAccount "NT AUTHORITY\SYSTEM"
+
+Add-LocalGroupMember -Group Administrators -Member "NT AUTHORITY\NetworkService"
+.\config.cmd --unattended --url https://dev.azure.com/$account --auth PAT --token $PAT --pool "$PoolName" --agent "$agentName" --runAsService
 
 Write-Information "###### INSTALL DRAINER ######"
 

@@ -6,6 +6,12 @@
     "tags": {
         "imagebuilderTemplate": "ubuntu1804"
     },
+    "identity":{
+        "type": "UserAssigned",
+        "userAssignedIdentities": {
+          "<imgBuilderId>": {}
+      }
+    },	
     "properties": {
         "buildTimeoutInMinutes": 80,
         "vmProfile": {

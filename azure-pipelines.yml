@@ -33,7 +33,6 @@ pr: none
 variables:
 - group: AzDO-variables
 
-
 jobs:
   - job: GenerateImage
     pool: 'UKHO Ubuntu 1804'
@@ -49,8 +48,9 @@ jobs:
         sed -i -e "s/<sharedImageGalleryName>/$SHAREDIMAGEGALLERYNAME/g" ubuntu-agent-vm-aib.json
         sed -i -e "s/<imageDefName>/$IMAGEDEFNAME/g" ubuntu-agent-vm-aib.json
         sed -i -e "s/<runOutputName>/$RUNOUTPUTNAME/g" ubuntu-agent-vm-aib.json
-        sed -i -e "s/<replicationRegion>/$REPLICATIONREGION/g" ubuntu-agent-vm-aib.json    
-        sed -i -e "s/<branchname>/$(Build.SourceBranchName)/g" ubuntu-agent-vm-aib.json    
+        sed -i -e "s/<replicationRegion>/$REPLICATIONREGION/g" ubuntu-agent-vm-aib.json
+        sed -i -e "s/<branchname>/$(Build.SourceBranchName)/g" ubuntu-agent-vm-aib.json
+        sed -i -e "s/<imgBuilderId>/$IMGBUILDERID/g" ubuntu-agent-vm-aib.json
         cat ubuntu-agent-vm-aib.json
       displayName: 'String replace variable names'
 

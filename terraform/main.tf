@@ -27,12 +27,12 @@ resource "azurerm_subnet" "aib-subnet" {
 }
 
 resource "azurerm_network_security_group" "aib-nsg" {
-  name                = "m-az-aib.nsg"
+  name                = "m-az-aib-nsg"
   location            = azurerm_resource_group.aib-rg.location
   resource_group_name = azurerm_resource_group.aib-rg.name
 
   security_rule {
-    name                       = "aib-access=rule"
+    name                       = "aib-access-rule"
     direction                  = "Inbound"
     access                     = "Allow"
     priority                   = 400

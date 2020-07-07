@@ -56,7 +56,7 @@ jobs:
         -backend-config="key=$(key)"
         
         terraform validate
-        terraform apply -input=false -compact-warnings
+        terraform apply -input=false -compact-warnings -auto-approve
       workingDirectory: ./terraform
       displayName: Terraform Plan
       env:

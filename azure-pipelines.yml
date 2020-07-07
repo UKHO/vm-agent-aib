@@ -32,7 +32,14 @@ pr: none
 
 variables:
 - group: AzDO-variables
-
+- name: storageAccountName
+    value: $(storagename)
+  - name: resourceGroupName
+    value: $(resousegroupname)
+  - name: containerName
+    value: tfstate
+  - name: key
+    value: aib-vnet.tfstate
 jobs:
   - job: GenerateImage
     pool: 'UKHO Ubuntu 1804'
@@ -40,6 +47,25 @@ jobs:
     timeoutInMinutes: 120
 
     steps:
+
+    - bash: |
+      terraform init \
+        -backend-config="storage_account_name=$(storageAccountName)" \
+        -backend-config="resource_group_name=$(resourceGroupName)" \
+        -backend-config="container_name=$(containerName)" \
+        -backend-config="key=$(key)"
+        
+      terraform validate
+      terraform apply -input=false -compact-warnings
+    workingDirectory: .\terraform
+    displayName: Terraform Plan
+    env:
+      ARM_TENANT_ID: $(TERRAFORM-TENANT-ID)
+      ARM_CLIENT_ID: $(TERRAFORM-CLIENT-ID)
+      ARM_CLIENT_SECRET: $(TERRAFORM-CLIENT-SECRET)
+      ARM_SUBSCRIPTION_ID: $(TERRAFORM-SUBSCRIPTION-ID)
+      ARM_ACCESS_KEY: $(TERRAFORM-ACCESS-KEY)
+
     - script: |
         cd ubuntu-agent-vm
         sed -i -e "s/<subscriptionID>/$SUBSCRIPTIONID/g" ubuntu-agent-vm-aib.json
@@ -73,19 +99,19 @@ jobs:
         CLIENTID: $(TERRAFORM-CLIENT-ID)
         CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
 
-    - bash: |
-        az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
-        az account set --subscription "$SUBSCRIPTIONID"
-        az resource invoke-action \
-          --resource-group $IMAGERESOURCEGROUP \
-          --resource-type  Microsoft.VirtualMachineImages/imageTemplates \
-          -n ubuntu-agent-vm-aib \
-          --action Run 
-      displayName: 'Build the image'
-      env:
-        TENANTID: $(TERRAFORM-TENANT-ID)
-        CLIENTID: $(TERRAFORM-CLIENT-ID)
-        CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
+    # - bash: |
+    #     az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
+    #     az account set --subscription "$SUBSCRIPTIONID"
+    #     az resource invoke-action \
+    #       --resource-group $IMAGERESOURCEGROUP \
+    #       --resource-type  Microsoft.VirtualMachineImages/imageTemplates \
+    #       -n ubuntu-agent-vm-aib \
+    #       --action Run 
+    #   displayName: 'Build the image'
+    #   env:
+    #     TENANTID: $(TERRAFORM-TENANT-ID)
+    #     CLIENTID: $(TERRAFORM-CLIENT-ID)
+    #     CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
 
 
     - bash: |

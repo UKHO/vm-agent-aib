@@ -57,7 +57,7 @@ jobs:
         
         terraform validate
         terraform apply -input=false -compact-warnings
-      workingDirectory: ./terrafrom
+      workingDirectory: ./terraform
       displayName: Terraform Plan
       env:
         ARM_TENANT_ID: $(TERRAFORM-TENANT-ID)

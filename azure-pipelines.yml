@@ -33,13 +33,13 @@ pr: none
 variables:
 - group: AzDO-variables
 - name: storageAccountName
-    value: $(storagename)
-  - name: resourceGroupName
-    value: $(resousegroupname)
-  - name: containerName
-    value: tfstate
-  - name: key
-    value: aib-vnet.tfstate
+  value: $(storagename)
+- name: resourceGroupName
+  value: $(resousegroupname)
+- name: containerName
+  value: tfstate
+- name: key
+  value: aib-vnet.tfstate
 jobs:
   - job: GenerateImage
     pool: 'UKHO Ubuntu 1804'

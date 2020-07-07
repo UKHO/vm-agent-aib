@@ -38,7 +38,7 @@ resource "azurerm_network_security_group" "aib-nsg" {
     priority                   = 400
     source_address_prefix      = "AzureLoadBalancer"
     source_port_range          = "*"
-    destination_address_prefix = "VirtualNet"
+    destination_address_prefix = "VirtualNetwork"
     destination_port_range     = "60000-60001"
     protocol                   = "TCP"
   }

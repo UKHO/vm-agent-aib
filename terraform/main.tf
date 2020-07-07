@@ -1,3 +1,7 @@
+terraform {
+  backend "azurerm" {}
+}
+
 provider "azurerm" {
   version         = "~> 2.0.0"
   features {}
@@ -20,7 +24,7 @@ resource "azurerm_subnet" "aib-subnet" {
   resource_group_name                            = azurerm_resource_group.aib-rg.name
   virtual_network_name                           = azurerm_virtual_network.aib-vnet.name
   enforce_private_link_endpoint_network_policies = true
-  address_prefixes                               = ["10.1.2.0/25"]
+  address_prefix                               = ["10.1.2.0/25"]
 }
 
 resource "azurerm_network_security_group" "aib-nsg" {
@@ -30,8 +34,8 @@ resource "azurerm_network_security_group" "aib-nsg" {
 
   security_rule {
     name                       = "aib-access=rule"
-    type                       = "Inbound"
-    action                     = "Allow"
+    direction                  = "Inbound"
+    access                     = "Allow"
     priority                   = 400
     source_address_prefix      = "AzureLoadBalancer"
     source_port_range          = "*"

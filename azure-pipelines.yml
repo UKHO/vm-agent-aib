@@ -32,14 +32,6 @@ pr: none
 
 variables:
 - group: AzDO-variables
-- name: storageAccountName
-  value: $(storagename)
-- name: resourceGroupName
-  value: $(resousegroupname)
-- name: containerName
-  value: tfstate
-- name: key
-  value: aib-vnet.tfstate
 jobs:
   - job: GenerateImage
     pool: 'UKHO Ubuntu 1804'
@@ -50,10 +42,10 @@ jobs:
 
     - bash: |
         terraform init \
-        -backend-config="storage_account_name=$(storageAccountName)" \
+        -backend-config="storage_account_name=$(storageName)" \
         -backend-config="resource_group_name=$(resourceGroupName)" \
-        -backend-config="container_name=$(containerName)" \
-        -backend-config="key=$(key)"
+        -backend-config="container_name=tfstate" \
+        -backend-config="key=aib-vnet.tfstate"
         
         terraform validate
         terraform apply -input=false -compact-warnings -auto-approve
@@ -61,6 +53,9 @@ jobs:
       displayName: Terraform Plan
       env:
         TF_VAR_location_id: $(region)
+        TF_VAR_vnetRGname: $(vnetRGname)
+        TF_VAR_vnetName: $(vnetName)
+        TF_VAR_subnetName: $(subnetName)
         ARM_TENANT_ID: $(TERRAFORM-TENANT-ID)
         ARM_CLIENT_ID: $(TERRAFORM-CLIENT-ID)
         ARM_CLIENT_SECRET: $(TERRAFORM-CLIENT-SECRET)

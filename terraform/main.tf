@@ -7,19 +7,19 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "aib-rg" {
-  name     = "m-az-aib-rg"
+  name     = var.vnetRGname
   location = var.location_id
 }
 
 resource "azurerm_virtual_network" "aib-vnet" {
   resource_group_name = azurerm_resource_group.aib-rg.name
-  name                = "aib-vnet"
+  name                = var.vnetName
   address_space       = ["10.1.2.0/24"]
   location            = azurerm_resource_group.aib-rg.location
 }
 
 resource "azurerm_subnet" "aib-subnet" {
-  name                                           = "aib-subnet"
+  name                                           = var.subnetName
   resource_group_name                            = azurerm_resource_group.aib-rg.name
   virtual_network_name                           = azurerm_virtual_network.aib-vnet.name
   enforce_private_link_endpoint_network_policies = true

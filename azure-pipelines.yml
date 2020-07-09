@@ -60,6 +60,7 @@ jobs:
       workingDirectory: ./terraform
       displayName: Terraform Plan
       env:
+        TF_VAR_location_id: $(region)
         ARM_TENANT_ID: $(TERRAFORM-TENANT-ID)
         ARM_CLIENT_ID: $(TERRAFORM-CLIENT-ID)
         ARM_CLIENT_SECRET: $(TERRAFORM-CLIENT-SECRET)

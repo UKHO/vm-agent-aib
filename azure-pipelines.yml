@@ -53,7 +53,7 @@ jobs:
       displayName: Terraform Plan
       env:
         TF_VAR_location_id: $(region)
-        TF_VAR_vnetRGname: $(vnetRGname)
+        TF_VAR_vnetRgName: $(vnetRgName)
         TF_VAR_vnetName: $(vnetName)
         TF_VAR_subnetName: $(subnetName)
         ARM_TENANT_ID: $(TERRAFORM-TENANT-ID)

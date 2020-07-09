@@ -1,7 +1,7 @@
 variable "location_id" {
 }
 
-variable "vnetRgname" {
+variable "vnetRgName" {
 }
 
 variable "vnetName" {

@@ -7,7 +7,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "aib-rg" {
-  name     = var.vnetRGname
+  name     = var.vnetRgName
   location = var.location_id
 }
 

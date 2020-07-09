@@ -8,14 +8,14 @@ provider "azurerm" {
 
 resource "azurerm_resource_group" "aib-rg" {
   name     = "m-az-aib-rg"
-  location = "eastus2"
+  location = var.location_id
 }
 
 resource "azurerm_virtual_network" "aib-vnet" {
   resource_group_name = azurerm_resource_group.aib-rg.name
   name                = "aib-vnet"
   address_space       = ["10.1.2.0/24"]
-  location            = "eastus2"
+  location            = azurerm_resource_group.aib-rg.location
 }
 
 resource "azurerm_subnet" "aib-subnet" {

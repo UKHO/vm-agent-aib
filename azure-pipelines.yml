@@ -95,19 +95,19 @@ jobs:
         CLIENTID: $(TERRAFORM-CLIENT-ID)
         CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
 
-    # - bash: |
-    #     az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
-    #     az account set --subscription "$SUBSCRIPTIONID"
-    #     az resource invoke-action \
-    #       --resource-group $IMAGERESOURCEGROUP \
-    #       --resource-type  Microsoft.VirtualMachineImages/imageTemplates \
-    #       -n ubuntu-agent-vm-aib \
-    #       --action Run 
-    #   displayName: 'Build the image'
-    #   env:
-    #     TENANTID: $(TERRAFORM-TENANT-ID)
-    #     CLIENTID: $(TERRAFORM-CLIENT-ID)
-    #     CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
+    - bash: |
+        az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
+        az account set --subscription "$SUBSCRIPTIONID"
+        az resource invoke-action \
+          --resource-group $IMAGERESOURCEGROUP \
+          --resource-type  Microsoft.VirtualMachineImages/imageTemplates \
+          -n ubuntu-agent-vm-aib \
+          --action Run 
+      displayName: 'Build the image'
+      env:
+        TENANTID: $(TERRAFORM-TENANT-ID)
+        CLIENTID: $(TERRAFORM-CLIENT-ID)
+        CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
 
 
     - bash: |

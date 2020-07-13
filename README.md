@@ -8,7 +8,7 @@ The finished image contains the following:
 - A version of the Azure Pipelines agent
 - The latest version of the [VM Drainer](https://github.com/UKHO/AzDoAgentDrainer)
 
-> **N.B.** [Azure Image Builder](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/image-builder-overview) is in preview and restricted to certain regions (all US based). This means the image is built in the US and then replicated to UK regions.
+> **N.B.** [Azure Image Builder](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/image-builder-overview) is in preview and restricted to certain regions. This means the image is built in the UK West and then replicated to UK South.
 
 ## Creating the image
 

@@ -71,7 +71,7 @@
             },
             {
                 "type": "Shell",
-                "name": "InstallPostgresqlClient",
+                "name": "InstallPython",
                 "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm/scripts/python.sh"
             }
         ],

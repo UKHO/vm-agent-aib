@@ -14,6 +14,9 @@ param(
 )
 Write-Information "###### Remove old MMA certifcates ######"
 Get-Service "HealthService" | Stop-Service
+Move-Item "C:\Program Files\Microsoft Monitoring Agent\Agent\Health Service State" -Destination "C:\Program Files\Microsoft Monitoring Agent\Agent\Health Service State.old"
+Move-Item "C:\Program Files\Microsoft Monitoring Agent\Agent\AzureAutomation" -Destination "C:\Program Files\Microsoft Monitoring Agent\Agent\AzureAutomation.old"
+Get-Item -Path "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\HybridRunbookWorker" | Remove-Item
 Get-ChildItem -Path "Cert:\LocalMachine\Microsoft Monioring Agent" | Remove-Item
 
 

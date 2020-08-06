@@ -12,9 +12,13 @@ param(
     $PartitionSize = 128
 
 )
+Write-Information "###### Remove old MMA certifcates ######"
+Get-Service "HealthService" | Stop-Service
+Get-ChildItem -Path "Cert:\LocalMachine\Microsoft Monioring Agent" | Remove-Item
 
+
+Write-Information "###### Expand out the drive ######"
 $size = $PartionSize + "GB"
-
 Resize-Partition -DiskNumber 0 -PartitionNumer 2 -Size ($size)
 
 Write-Information "###### Get latest NVD ######"

@@ -7,6 +7,8 @@ The finished image contains the following:
 - Base dependencies (docker, maven etc.)
 - A version of the Azure Pipelines agent
 - The latest version of the [VM Drainer](https://github.com/UKHO/AzDoAgentDrainer)
+- UKHO esa-snap7-snappy 
+- UKHO Terraform
 
 > **N.B.** [Azure Image Builder](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/image-builder-overview) is in preview and restricted to certain regions. This means the image is built in the UK West and then replicated to UK South.
 

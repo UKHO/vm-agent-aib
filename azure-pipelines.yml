@@ -64,7 +64,6 @@ jobs:
         ARM_ACCESS_KEY: $(TERRAFORM-ACCESS-KEY)
 
     - script: |
-        echo $(imageBuilderId)
         cd ubuntu-agent-vm
         sed -i -e "s/<subscriptionID>/$SUBSCRIPTIONID/g" ubuntu-agent-vm-aib.json
         sed -i -e "s/<rgName>/$IMAGERESOURCEGROUP/g" ubuntu-agent-vm-aib.json
@@ -77,7 +76,7 @@ jobs:
         sed -i -e "s/<vnetRgName>/$VNETRGNAME/g" ubuntu-agent-vm-aib.json
         sed -i -e "s/<vnetName>/$VNETNAME/g" ubuntu-agent-vm-aib.json
         sed -i -e "s/<subnetName>/$SUBNETNAME/g" ubuntu-agent-vm-aib.json
-        sed -i -e "s%<imgBuilderId>%$IMGBUILDERID%g" ubuntu-agent-vm-aib.json
+        sed -i -e "s%<imgBuilderId>%$(imageBuilderId)%g" ubuntu-agent-vm-aib.json
         cat ubuntu-agent-vm-aib.json
       displayName: 'String replace variable names'
 

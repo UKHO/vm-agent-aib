@@ -49,7 +49,7 @@ jobs:
         
         terraform validate
         terraform apply -input=false -compact-warnings -auto-approve
-        echo $(terraform output aib-identity-id)      
+        echo "##vso[task.setvariable variable=imageBuilderId]$(terraform output aib-identity-id)"        
       workingDirectory: ./terraform
       displayName: Terraform Plan
       env:
@@ -64,6 +64,7 @@ jobs:
         ARM_ACCESS_KEY: $(TERRAFORM-ACCESS-KEY)
 
     - script: |
+        echo $(imageBuilderId)
         cd ubuntu-agent-vm
         sed -i -e "s/<subscriptionID>/$SUBSCRIPTIONID/g" ubuntu-agent-vm-aib.json
         sed -i -e "s/<rgName>/$IMAGERESOURCEGROUP/g" ubuntu-agent-vm-aib.json

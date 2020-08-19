@@ -7,9 +7,25 @@ provider "azurerm" {
   features {}
 }
 
+data "azurerm_subscription" "primary" {
+}
+
 resource "azurerm_resource_group" "aib-rg" {
   name     = var.vnetRgName
   location = var.location_id
+}
+
+resource "azurerm_user_assigned_identity" "identity" {
+  resource_group_name = azurerm_resource_group.aib-rg.name
+  location = azurerm_resource_group.aib-rg.location
+
+  name = "aib-identity"
+}
+
+resource "azurerm_role_assignment" "aib-subscription-contributor" {
+  scope = data.azurerm_subscription.primary.id
+  role_definition_name = "Contributor"
+  principal_id = azurerm_user_assigned_identity.identity.principal_id
 }
 
 resource "azurerm_virtual_network" "aib-vnet" {

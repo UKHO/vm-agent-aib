@@ -80,47 +80,47 @@ jobs:
         cat ubuntu-agent-vm-aib.json
       displayName: 'String replace variable names'
 
-    # - bash: |
-    #     az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
-    #     az account set --subscription "$SUBSCRIPTIONID"
-    #     cd ubuntu-agent-vm
-    #     az resource create \
-    #       --resource-group $IMAGERESOURCEGROUP \
-    #       --properties @ubuntu-agent-vm-aib.json \
-    #       --is-full-object \
-    #       --resource-type Microsoft.VirtualMachineImages/imageTemplates \
-    #       -n ubuntu-agent-vm-aib
-    #   displayName: 'Deploy AIB template'
-    #   env:
-    #     TENANTID: $(TERRAFORM-TENANT-ID)
-    #     CLIENTID: $(TERRAFORM-CLIENT-ID)
-    #     CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
+    - bash: |
+        az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
+        az account set --subscription "$SUBSCRIPTIONID"
+        cd ubuntu-agent-vm
+        az resource create \
+          --resource-group $IMAGERESOURCEGROUP \
+          --properties @ubuntu-agent-vm-aib.json \
+          --is-full-object \
+          --resource-type Microsoft.VirtualMachineImages/imageTemplates \
+          -n ubuntu-agent-vm-aib
+      displayName: 'Deploy AIB template'
+      env:
+        TENANTID: $(TERRAFORM-TENANT-ID)
+        CLIENTID: $(TERRAFORM-CLIENT-ID)
+        CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
 
-    # - bash: |
-    #     az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
-    #     az account set --subscription "$SUBSCRIPTIONID"
-    #     az resource invoke-action \
-    #       --resource-group $IMAGERESOURCEGROUP \
-    #       --resource-type  Microsoft.VirtualMachineImages/imageTemplates \
-    #       -n ubuntu-agent-vm-aib \
-    #       --action Run 
-    #   displayName: 'Build the image'
-    #   env:
-    #     TENANTID: $(TERRAFORM-TENANT-ID)
-    #     CLIENTID: $(TERRAFORM-CLIENT-ID)
-    #     CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
+    - bash: |
+        az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
+        az account set --subscription "$SUBSCRIPTIONID"
+        az resource invoke-action \
+          --resource-group $IMAGERESOURCEGROUP \
+          --resource-type  Microsoft.VirtualMachineImages/imageTemplates \
+          -n ubuntu-agent-vm-aib \
+          --action Run 
+      displayName: 'Build the image'
+      env:
+        TENANTID: $(TERRAFORM-TENANT-ID)
+        CLIENTID: $(TERRAFORM-CLIENT-ID)
+        CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
 
 
-    # - bash: |
-    #     az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
-    #     az account set --subscription "$SUBSCRIPTIONID"
-    #     az resource delete \
-    #     --resource-group $IMAGERESOURCEGROUP \
-    #     --resource-type Microsoft.VirtualMachineImages/imageTemplates \
-    #     -n ubuntu-agent-vm-aib
-    #   condition: always()
-    #   displayName: 'Delete the AIB template'
-    #   env:
-    #     TENANTID: $(TERRAFORM-TENANT-ID)
-    #     CLIENTID: $(TERRAFORM-CLIENT-ID)
-    #     CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
+    - bash: |
+        az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
+        az account set --subscription "$SUBSCRIPTIONID"
+        az resource delete \
+        --resource-group $IMAGERESOURCEGROUP \
+        --resource-type Microsoft.VirtualMachineImages/imageTemplates \
+        -n ubuntu-agent-vm-aib
+      condition: always()
+      displayName: 'Delete the AIB template'
+      env:
+        TENANTID: $(TERRAFORM-TENANT-ID)
+        CLIENTID: $(TERRAFORM-CLIENT-ID)
+        CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)

@@ -13,10 +13,14 @@ param(
     $workspaceId
 
 )
+Get-Service "HealthService" | Stop-Service
+
 Write-Information "###### Remove old MMA certifcates ######"
 $mma = New-Object -ComObject 'AgentConfigManager.MgmtSvcCfg'
 $mma.RemoveCloudWorkspace($workspaceId)
 $mma.ReloadConfiguration()
+
+Get-Service "HealthService" | Start-Service
 
 Write-Information "###### Expand out the drive ######"
 $size = $PartionSize + "GB"

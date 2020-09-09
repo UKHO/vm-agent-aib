@@ -10,17 +10,23 @@ param(
     [Parameter(Mandatory)]
     $owaspPassword,
     $PartitionSize = 128,
-    $workspaceId
+    $OldWorkspaceId,
+    $NewWorkspaceId,
+    $NewWorkspaceKey
 
 )
 Get-Service "HealthService" | Stop-Service
 
-Write-Information "###### Remove old MMA certifcates ######"
+Write-Information "###### Start replace MMA Workspace ######"
+Get-Service "HealthService" | Stop-Service
+
 $mma = New-Object -ComObject 'AgentConfigManager.MgmtSvcCfg'
-$mma.RemoveCloudWorkspace($workspaceId)
+$mma.AddCloudWorkspace($NewWorkspaceId, $NewWorkspaceKey)
+
+$mma.RemoveCloudWorkspace($OldWorkspaceId)
 $mma.ReloadConfiguration()
 
-Get-Service "HealthService" | Start-Service
+Write-Information "###### End replace MMA WorkspaceId ######"
 
 Write-Information "###### Expand out the drive ######"
 $size = $PartionSize + "GB"

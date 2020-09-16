@@ -12,10 +12,10 @@ sleep 20s
 
 echo '########### SETUP NVD DC ###########'
 mountpoint="owaspdependencycheck"
-storageaccountname=$4
+storageaccountname=$1
 storageaccountfileshare="owaspdependencycheck"
-storageaccountuser=$5
-storageaccountpassword=$6
+storageaccountuser=$2
+storageaccountpassword=$3
 
 echo "${storageaccountname}"
 

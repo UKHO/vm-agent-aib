@@ -73,6 +73,13 @@ Expand-Archive -Path ./$zip -DestinationPath .
 Add-LocalGroupMember -Group Administrators -Member "NT AUTHORITY\NetworkService"
 .\config.cmd --unattended --url https://dev.azure.com/$account --auth PAT --token $PAT --pool "$PoolName" --agent "$agentName" --runAsService
 
+Write-Information "###### Docker Service Config ######"
+SC failure docker reset=0 actions=restart/60000/restart/60000/run/60000 command=""shutdown" "/T00""
+
+Write-Information "###### Docker Service Restart ######"
+$varService = "docker"
+Get-Service -Name $varService | Restart-Service
+
 Write-Information "###### INSTALL DRAINER ######"
 
 choco install nssm -y

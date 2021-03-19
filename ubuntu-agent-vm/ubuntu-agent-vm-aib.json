@@ -56,6 +56,11 @@
             },
             {
                 "type": "Shell",
+                "name": "InstallDotNetCoreSdk5-0",
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm/scripts/netcoresdk5-0.sh"
+            },
+            {
+                "type": "Shell",
                 "name": "DownloadAzureDevOpsAgent",
                 "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm/scripts/azuredevopsagent.sh"
             },

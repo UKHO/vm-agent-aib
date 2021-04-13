@@ -39,6 +39,43 @@ mount -t cifs //${storageaccountname}.file.core.windows.net/${storageaccountfile
 
 export PATH=$PATH:/mnt/${mountpoint}/dependency-check/bin
 
+echo "########### CONFIGURING SWAP FILE ###########"
+sed -i 's/ResourceDisk.Format=n/ResourceDisk.Format=y/' /etc/waagent.conf
+sed -i 's/ResourceDisk.EnableSwap=n/ResourceDisk.EnableSwap=y/' /etc/waagent.conf
+sed -i 's/ResourceDisk.SwapSizeMB=0/ResourceDisk.SwapSizeMB=8192/' /etc/waagent.conf
+
+umount /mnt
+service walinuxagent restart
+
+sleep 20s
+
+echo '########### SETUP DML ###########'
+dmlmountpoint="dml"
+dmlstorageaccountname=$10
+dmlstorageaccountfileshare="dmlshare"
+dmlstorageaccountuser=$11
+dmlstorageaccountpassword=$12
+
+echo "${dmlstorageaccountname}"
+
+echo "${dmlstorageaccountuser}"
+
+mkdir /mnt/${dmlmountpoint}
+
+install -d /etc/smbcredentials
+
+fifo=$(mktemp)
+mkfifo ${fifo}
+install --mode=600 ${fifo} "/etc/smbcredentials/${dmlstorageaccountuser}.cred" &
+cat <<EOF > ${fifo}
+username=${dmlstorageaccountuser}
+password=${dmlstorageaccountpassword}
+EOF
+rm ${fifo}
+
+echo "//${dmlstorageaccountname}.file.core.windows.net/${dmlstorageaccountfileshare} /mnt/${dmlmountpoint} cifs nofail,vers=3.0,credentials=/etc/smbcredentials/${dmlstorageaccountuser}.cred,dir_mode=0777,file_mode=0777,serverino" >> /etc/fstab
+mount -t cifs //${dmlstorageaccountname}.file.core.windows.net/${dmlstorageaccountfileshare} /mnt/${dmlmountpoint} -o vers=3.0,credentials=/etc/smbcredentials/${dmlstorageaccountuser}.cred,dir_mode=0777,file_mode=0777,serverino
+
 echo "########### CONFIGURING AGENT ###########"
 echo "Allow agent to run as root"
 export AGENT_ALLOW_RUNASROOT="YES"

@@ -39,6 +39,13 @@ Write-Information "###### ADD dc to path ######"
 # Save the password so the drive will persist on reboot
 $dcpath = "C:\dependency-check\bin"
 
+Write-Information "###### Docker Service Config ######"
+SC failure docker reset=0 actions=restart/60000/restart/60000/run/60000 command=""shutdown" "/T00""
+
+Write-Information "###### Docker Service Restart ######"
+$varService = "docker"
+Get-Service -Name $varService | Restart-Service
+
 $path = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
 [System.Environment]::SetEnvironmentVariable("Path", $path + ";$dcpath", "Machine")
 

@@ -1,28 +1,18 @@
-#!/bin/bash
-LSB_RELEASE=$(-rs)
-
-# Install Microsoft repository
-wget https://packages.microsoft.com/config/ubuntu/$LSB_RELEASE/packages-microsoft-prod.deb
-dpkg -i packages-microsoft-prod.deb
-apt-get install -y apt-transport-https ca-certificates curl software-properties-common
-
-# Install Microsoft GPG public key
-curl -L https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-
-curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
-mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
 apt-get update
 
-# Install Moby
-apt-get remove -y moby-engine moby-cli
+apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+echo \
+  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+
 apt-get update
-apt-get install -y moby-engine moby-cli
-apt-get install --no-install-recommends -y moby-buildx
-
-# Enable docker.service
-systemctl is-active --quiet docker.service || systemctl start docker.service
-systemctl is-enabled --quiet docker.service || systemctl enable docker.service
-
-# Docker daemon takes time to come up after installing
-sleep 10
-docker info
+apt-get install -y docker-ce docker-ce-cli containerd.io

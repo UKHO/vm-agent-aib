@@ -1,20 +1,14 @@
 #!/bin/bash
 
+apt-get remove -y moby-engine moby-cli
 apt-get update
+apt-get install -y moby-engine moby-cli
+apt-get install --no-install-recommends -y moby-buildx
 
-apt-get install \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    gnupg \
-    lsb-release
+# Enable docker.service
+systemctl is-active --quiet docker.service || systemctl start docker.service
+systemctl is-enabled --quiet docker.service || systemctl enable docker.service
 
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-
-echo \
-  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-
-apt-get update
-apt-get install docker-ce docker-ce-cli containerd.io
+# Docker daemon takes time to come up after installing
+sleep 10
+docker info

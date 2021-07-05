@@ -37,7 +37,16 @@ rm ${fifo}
 echo "//${storageaccountname}.file.core.windows.net/${storageaccountfileshare} /mnt/${mountpoint} cifs nofail,vers=3.0,credentials=/etc/smbcredentials/${storageaccountuser}.cred,dir_mode=0777,file_mode=0777,serverino" >> /etc/fstab
 mount -t cifs //${storageaccountname}.file.core.windows.net/${storageaccountfileshare} /mnt/${mountpoint} -o vers=3.0,credentials=/etc/smbcredentials/${storageaccountuser}.cred,dir_mode=0777,file_mode=0777,serverino
 
+if [ ! -d "/mnt/${mountpoint}/dependency-check" ] {
+  sleep 1m
+  echo "//${storageaccountname}.file.core.windows.net/${storageaccountfileshare} /mnt/${mountpoint} cifs nofail,vers=3.0,credentials=/etc/smbcredentials/${storageaccountuser}.cred,dir_mode=0777,file_mode=0777,serverino" >> /etc/fstab
+  mount -t cifs //${storageaccountname}.file.core.windows.net/${storageaccountfileshare} /mnt/${mountpoint} -o vers=3.0,credentials=/etc/smbcredentials/${storageaccountuser}.cred,dir_mode=0777,file_mode=0777,serverino
+}
+
+sleep 10
+
 export PATH=$PATH:/mnt/${mountpoint}/dependency-check/bin
 
 echo "Allow agent to run as root"
 export AGENT_ALLOW_RUNASROOT="YES"
+

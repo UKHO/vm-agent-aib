@@ -43,7 +43,7 @@ if [ ! -d "/mnt/${mountpoint}/dependency-check" ] {
   mount -t cifs //${storageaccountname}.file.core.windows.net/${storageaccountfileshare} /mnt/${mountpoint} -o vers=3.0,credentials=/etc/smbcredentials/${storageaccountuser}.cred,dir_mode=0777,file_mode=0777,serverino
 }
 
-sleep 10
+sleep 10s
 
 export PATH=$PATH:/mnt/${mountpoint}/dependency-check/bin
 

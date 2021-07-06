@@ -34,12 +34,9 @@ password=${storageaccountpassword}
 EOF
 rm ${fifo}
 
-sleep 10s
 
 echo "//${storageaccountname}.file.core.windows.net/${storageaccountfileshare} /mnt/${mountpoint} cifs nofail,vers=3.0,credentials=/etc/smbcredentials/${storageaccountuser}.cred,dir_mode=0777,file_mode=0777,serverino" >> /etc/fstab
 mount -t cifs //${storageaccountname}.file.core.windows.net/${storageaccountfileshare} /mnt/${mountpoint} -o vers=3.0,credentials=/etc/smbcredentials/${storageaccountuser}.cred,dir_mode=0777,file_mode=0777,serverino
-
-sleep 10s
 
 export PATH=$PATH:/mnt/${mountpoint}/dependency-check/bin
 

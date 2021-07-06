@@ -13,12 +13,9 @@ trigger:
     include:
       - master
   paths:
-    exclude:
-    - README.md
-    - CODEOWNERS
-    - customscriptextension.sh
-    - azure-pipelines.yml
-    - customscriptextension.ps1
+    include:
+    - ubuntu-agent-vm/*
+    - terraform/*
     
 schedules:
 - cron: "0 10 * * 2"

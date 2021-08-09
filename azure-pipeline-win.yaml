@@ -75,7 +75,7 @@ jobs:
         sed -i -e "s/<branchname>/$(Build.SourceBranchName)/g" win-agent-vm-aib.json
         sed -i -e "s/<vnetRgName>/$VNETRGNAME/g" win-agent-vm-aib.json
         sed -i -e "s/<vnetName>/$VNETNAME/g" win-agent-vm-aib.json
-        sed -i -e "s/<subnetName>/$SUBNETNAME/g" ubuwinntu-agent-vm-aib.json
+        sed -i -e "s/<subnetName>/$SUBNETNAME/g" win-agent-vm-aib.json
         sed -i -e "s%<imgBuilderId>%$(imageBuilderId)%g" win-agent-vm-aib.json
         cat win-agent-vm-aib.json
       displayName: 'String replace variable names'

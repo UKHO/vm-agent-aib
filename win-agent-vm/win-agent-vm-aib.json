@@ -1,0 +1,48 @@
+{
+"type": "Microsoft.VirtualMachineImages/imageTemplates",
+"apiVersion": "2019-05-01-preview",
+"location": "<region>",
+"dependsOn": [],
+"tags": {
+"imagebuilderTemplate": "win19dc"
+},
+"identity": {
+"type": "UserAssigned",
+"userAssignedIdentities": {
+"<imgBuilderId>": {}
+}
+},
+"properties": {
+"buildTimeoutInMinutes": 80,
+"vmProfile": {
+"vmSize": "Standard_D1_v2",
+"osDiskSizeGB": 64,
+"vnetConfig": {
+"subnetId": "/subscriptions/<subscriptionID>/resourceGroups/<vnetRgName>/providers/Microsoft.Network/virtualNetworks/<vnetName>/subnets/<subnetName>"
+}
+},
+"source": {
+"type": "PlatformImage",
+"publisher": "MicrosoftWindowsServer",
+"offer": "WindowsServer",
+"sku": "2019-Datacenter",
+"version": "latest"
+},
+"customize": [
+],
+"distribute": [
+{
+"type": "SharedImage",
+"galleryImageId": "/subscriptions/<subscriptionID>/resourceGroups/<rgName>/providers/Microsoft.Compute/galleries/<sharedImageGalleryName>/images/<imageDefName>",
+"runOutputName": "<runOutputName>",
+"artifactTags": {
+"source": "azureVmImageBuilder",
+"baseosimg": "win19dc"
+},
+"replicationRegions": [
+"<replicationRegion>"
+]
+}
+]
+}
+}

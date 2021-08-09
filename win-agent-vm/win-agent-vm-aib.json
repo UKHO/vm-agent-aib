@@ -29,6 +29,16 @@
 "version": "latest"
 },
 "customize": [
+    {
+        "type": "powershell",
+        "name": "InitVM",
+        "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-agent-vm/scripts/Initialise-VM.ps1"
+    }
+    ,{
+        "type": "powershell",
+        "name": "InstallAzCli",
+        "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-agent-vm/scripts/Install-AzCli.ps1"
+    }
 ],
 "distribute": [
 {

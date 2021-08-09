@@ -30,12 +30,12 @@
 },
 "customize": [
     {
-        "type": "powershell",
+        "type": "PowerShell",
         "name": "InitVM",
         "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-agent-vm/scripts/Initialise-VM.ps1"
     }
     ,{
-        "type": "powershell",
+        "type": "PowerShell",
         "name": "InstallAzCli",
         "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-agent-vm/scripts/Install-AzCli.ps1"
     }

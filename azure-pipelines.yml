@@ -7,11 +7,13 @@ resources:
         branches:
           include:
             - master
+            - main
 
 trigger:
   branches:
     include:
       - master
+      - main
   paths:
     include:
     - ubuntu-agent-vm/*
@@ -23,6 +25,7 @@ schedules:
   branches:
     include:
     - master
+    - main
   always: true
 
 pr: none

@@ -16,7 +16,7 @@
 "buildTimeoutInMinutes": 80,
 "vmProfile": {
 "vmSize": "Standard_D1_v2",
-"osDiskSizeGB": 64,
+"osDiskSizeGB": 128,
 "vnetConfig": {
 "subnetId": "/subscriptions/<subscriptionID>/resourceGroups/<vnetRgName>/providers/Microsoft.Network/virtualNetworks/<vnetName>/subnets/<subnetName>"
 }

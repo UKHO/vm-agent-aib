@@ -41,5 +41,5 @@ mount -t cifs //${storageaccountname}.file.core.windows.net/${storageaccountfile
 export PATH=$PATH:/mnt/${mountpoint}/dependency-check/bin
 
 echo "Allow agent to run as root"
-export AGENT_ALLOW_RUNASROOT="YES"
+export AGENT_ALLOW_RUNASROOT="1"
 

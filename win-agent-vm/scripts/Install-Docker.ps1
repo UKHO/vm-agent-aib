@@ -14,7 +14,7 @@ Install-Package -Name docker -ProviderName DockerMsftProvider -Force
 Start-Service docker
 
 Write-Host "Install-Package Docker-Compose"
-Choco-Install -PackageName docker-compose
+choco install docker-compose
 
 Write-Host "Install Helm"
-Choco-Install -PackageName kubernetes-helm
+choco install kubernetes-helm

@@ -36,7 +36,7 @@ jobs:
   - job: GenerateImage
     pool: 'UKHO Ubuntu 1804'
     container: ukhydrographicoffice/terraform-azure:latest
-    timeoutInMinutes: 120
+    timeoutInMinutes: 240
 
     steps:
 

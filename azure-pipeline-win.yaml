@@ -20,7 +20,7 @@ trigger:
     - terraform/*
     
 schedules:
-- cron: "0 7 * * 3"
+- cron: "0 5 * * 3"
   displayName: Weekly Build
   branches:
     include:

@@ -39,7 +39,7 @@ resource "azurerm_subnet" "aib-subnet" {
   resource_group_name                            = azurerm_resource_group.aib-rg.name
   virtual_network_name                           = azurerm_virtual_network.aib-vnet.name
   enforce_private_link_service_network_policies  = true
-  address_prefix                                 = "10.1.2.0/25"
+  address_prefixes                               = ["10.1.2.0/25"]
 }
 
 resource "azurerm_network_security_group" "aib-nsg" {
@@ -56,7 +56,7 @@ resource "azurerm_network_security_group" "aib-nsg" {
     source_port_range          = "*"
     destination_address_prefix = "VirtualNetwork"
     destination_port_range     = "60000-60001"
-    protocol                   = "TCP"
+    protocol                   = "Tcp"
   }
 }
 

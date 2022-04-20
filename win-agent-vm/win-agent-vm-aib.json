@@ -1,10 +1,10 @@
 {
 "type": "Microsoft.VirtualMachineImages/imageTemplates",
-"apiVersion": "2019-05-01-preview",
+"apiVersion": "2021-10-01",
 "location": "<region>",
 "dependsOn": [],
 "tags": {
-"imagebuilderTemplate": "win22dc"
+"imagebuilderTemplate": "win19dc"
 },
 "identity": {
 "type": "UserAssigned",
@@ -25,7 +25,7 @@
 "type": "PlatformImage",
 "publisher": "MicrosoftWindowsServer",
 "offer": "WindowsServer",
-"sku": "2022-Datacenter",
+"sku": "2019-Datacenter",
 "version": "latest"
 },
 "customize": [
@@ -51,7 +51,7 @@
 "runOutputName": "<runOutputName>",
 "artifactTags": {
 "source": "azureVmImageBuilder",
-"baseosimg": "win22dc"
+"baseosimg": "win19dc"
 },
 "replicationRegions": [
 "<replicationRegion>"

@@ -4,7 +4,7 @@
 "location": "<region>",
 "dependsOn": [],
 "tags": {
-"imagebuilderTemplate": "win19dc"
+"imagebuilderTemplate": "win22dc"
 },
 "identity": {
 "type": "UserAssigned",
@@ -51,7 +51,7 @@
 "runOutputName": "<runOutputName>",
 "artifactTags": {
 "source": "azureVmImageBuilder",
-"baseosimg": "win19dc"
+"baseosimg": "win22dc"
 },
 "replicationRegions": [
 "<replicationRegion>"

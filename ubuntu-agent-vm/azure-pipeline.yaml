@@ -28,6 +28,9 @@ pr: none
 
 variables:
 - group: AzDO-variables
+- group: aib-variables
+- name: imageDefName
+  value: azure-pipelines-image-ubuntu-18-04
 jobs:
   - job: GenerateImage
     pool: 'UKHO Ubuntu 1804'

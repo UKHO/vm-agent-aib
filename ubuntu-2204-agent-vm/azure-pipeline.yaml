@@ -26,8 +26,13 @@ schedules:
 
 pr: none
 
-variables:
 - group: AzDO-variables
+- group: aib-variables
+- name: imageDefName
+  value: azure-pipelines-image-ubuntu-22-04
+- name: runOutputName
+  value: aiblinux2204
+
 jobs:
   - job: GenerateImage
     pool: 'UKHO Ubuntu 1804'

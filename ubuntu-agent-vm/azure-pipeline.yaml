@@ -31,6 +31,8 @@ variables:
 - group: aib-variables
 - name: imageDefName
   value: azure-pipelines-image-ubuntu-18-04
+- name: runOutputName
+  value: aiblinux
 jobs:
   - job: GenerateImage
     pool: 'UKHO Ubuntu 1804'

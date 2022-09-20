@@ -9,6 +9,24 @@ resources:
             - master
             - main
 
+trigger:
+  branches:
+    include:
+      - master
+      - main
+  paths:
+    include:
+    - win-agent-vm/*
+    
+schedules:
+- cron: "0 5 * * 3"
+  displayName: Weekly Build
+  branches:
+    include:
+    - master
+    - main
+  always: true
+
 pr: none
 
 variables:

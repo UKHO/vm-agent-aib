@@ -16,11 +16,10 @@ trigger:
       - main
   paths:
     include:
-    - ubuntu-2204-agent-vm/*
-    - terraform/*
+    - ubuntu-2004-agent-vm/*
     
 schedules:
-- cron: "0 5 * * 1"
+- cron: "0 5 * * 4"
   displayName: Weekly Build
   branches:
     include:
@@ -64,7 +63,7 @@ jobs:
         ARM_ACCESS_KEY: $(TERRAFORM-ACCESS-KEY)
 
     - script: |
-        cd ubuntu-2204-agent-vm
+        cd ubuntu-2004-agent-vm
         sed -i -e "s/<subscriptionID>/$SUBSCRIPTIONID/g" ubuntu-agent-vm-aib.json
         sed -i -e "s/<rgName>/$IMAGERESOURCEGROUP/g" ubuntu-agent-vm-aib.json
         sed -i -e "s/<region>/$REGION/g" ubuntu-agent-vm-aib.json

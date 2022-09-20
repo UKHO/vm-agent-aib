@@ -16,11 +16,11 @@ trigger:
       - main
   paths:
     include:
-    - win-agent-vm/*
+    - ubuntu-2204-agent-vm/*
     - terraform/*
     
 schedules:
-- cron: "0 5 * * 3"
+- cron: "0 5 * * 1"
   displayName: Weekly Build
   branches:
     include:
@@ -36,7 +36,7 @@ jobs:
   - job: GenerateImage
     pool: 'UKHO Ubuntu 1804'
     container: ukhydrographicoffice/terraform-azure:latest
-    timeoutInMinutes: 240
+    timeoutInMinutes: 120
 
     steps:
 
@@ -64,32 +64,32 @@ jobs:
         ARM_ACCESS_KEY: $(TERRAFORM-ACCESS-KEY)
 
     - script: |
-        cd win-agent-vm
-        sed -i -e "s/<subscriptionID>/$SUBSCRIPTIONID/g" win-agent-vm-aib.json
-        sed -i -e "s/<rgName>/$IMAGERESOURCEGROUP/g" win-agent-vm-aib.json
-        sed -i -e "s/<region>/$REGION/g" win-agent-vm-aib.json
-        sed -i -e "s/<sharedImageGalleryName>/$SHAREDIMAGEGALLERYNAME/g" win-agent-vm-aib.json
-        sed -i -e "s/<imageDefName>/$IMAGEDEFNAME/g" win-agent-vm-aib.json
-        sed -i -e "s/<runOutputName>/$RUNOUTPUTNAME/g" win-agent-vm-aib.json
-        sed -i -e "s/<replicationRegion>/$REPLICATIONREGION/g" win-agent-vm-aib.json
-        sed -i -e "s/<branchname>/$(Build.SourceBranchName)/g" win-agent-vm-aib.json
-        sed -i -e "s/<vnetRgName>/$VNETRGNAME/g" win-agent-vm-aib.json
-        sed -i -e "s/<vnetName>/$VNETNAME/g" win-agent-vm-aib.json
-        sed -i -e "s/<subnetName>/$SUBNETNAME/g" win-agent-vm-aib.json
-        sed -i -e "s%<imgBuilderId>%$(imageBuilderId)%g" win-agent-vm-aib.json
-        cat win-agent-vm-aib.json
+        cd ubuntu-2204-agent-vm
+        sed -i -e "s/<subscriptionID>/$SUBSCRIPTIONID/g" ubuntu-agent-vm-aib.json
+        sed -i -e "s/<rgName>/$IMAGERESOURCEGROUP/g" ubuntu-agent-vm-aib.json
+        sed -i -e "s/<region>/$REGION/g" ubuntu-agent-vm-aib.json
+        sed -i -e "s/<sharedImageGalleryName>/$SHAREDIMAGEGALLERYNAME/g" ubuntu-agent-vm-aib.json
+        sed -i -e "s/<imageDefName>/$IMAGEDEFNAME/g" ubuntu-agent-vm-aib.json
+        sed -i -e "s/<runOutputName>/$RUNOUTPUTNAME/g" ubuntu-agent-vm-aib.json
+        sed -i -e "s/<replicationRegion>/$REPLICATIONREGION/g" ubuntu-agent-vm-aib.json
+        sed -i -e "s/<branchname>/$(Build.SourceBranchName)/g" ubuntu-agent-vm-aib.json
+        sed -i -e "s/<vnetRgName>/$VNETRGNAME/g" ubuntu-agent-vm-aib.json
+        sed -i -e "s/<vnetName>/$VNETNAME/g" ubuntu-agent-vm-aib.json
+        sed -i -e "s/<subnetName>/$SUBNETNAME/g" ubuntu-agent-vm-aib.json
+        sed -i -e "s%<imgBuilderId>%$(imageBuilderId)%g" ubuntu-agent-vm-aib.json
+        cat ubuntu-agent-vm-aib.json
       displayName: 'String replace variable names'
 
     - bash: |
         az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
         az account set --subscription "$SUBSCRIPTIONID"
-        cd win-agent-vm
+        cd ubuntu-agent-vm
         az resource create \
           --resource-group $IMAGERESOURCEGROUP \
-          --properties @win-agent-vm-aib.json \
+          --properties @ubuntu-agent-vm-aib.json \
           --is-full-object \
           --resource-type Microsoft.VirtualMachineImages/imageTemplates \
-          -n win-agent-vm-aib
+          -n ubuntu-agent-vm-aib
       displayName: 'Deploy AIB template'
       env:
         TENANTID: $(TERRAFORM-TENANT-ID)
@@ -102,7 +102,7 @@ jobs:
         az resource invoke-action \
           --resource-group $IMAGERESOURCEGROUP \
           --resource-type  Microsoft.VirtualMachineImages/imageTemplates \
-          -n win-agent-vm-aib \
+          -n ubuntu-agent-vm-aib \
           --action Run 
       displayName: 'Build the image'
       env:
@@ -117,7 +117,7 @@ jobs:
         az resource delete \
         --resource-group $IMAGERESOURCEGROUP \
         --resource-type Microsoft.VirtualMachineImages/imageTemplates \
-        -n win-agent-vm-aib
+        -n ubuntu-agent-vm-aib
       condition: always()
       displayName: 'Delete the AIB template'
       env:

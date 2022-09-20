@@ -66,17 +66,17 @@ jobs:
 
     - script: |
         cd win-agent-vm
-        sed -i -e "s/<subscriptionID>/$SUBSCRIPTIONID/g" win-agent-vm-aib.json
-        sed -i -e "s/<rgName>/$IMAGERESOURCEGROUP/g" win-agent-vm-aib.json
-        sed -i -e "s/<region>/$REGION/g" win-agent-vm-aib.json
-        sed -i -e "s/<sharedImageGalleryName>/$SHAREDIMAGEGALLERYNAME/g" win-agent-vm-aib.json
-        sed -i -e "s/<imageDefName>/$IMAGEDEFNAME/g" win-agent-vm-aib.json
-        sed -i -e "s/<runOutputName>/$RUNOUTPUTNAME/g" win-agent-vm-aib.json
-        sed -i -e "s/<replicationRegion>/$REPLICATIONREGION/g" win-agent-vm-aib.json
+        sed -i -e "s/<subscriptionID>/$(subscriptionId)/g" win-agent-vm-aib.json
+        sed -i -e "s/<rgName>/$(imageResourceGroup)/g" win-agent-vm-aib.json
+        sed -i -e "s/<region>/$(region)/g" win-agent-vm-aib.json
+        sed -i -e "s/<sharedImageGalleryName>/$(sharedImageGalleryName)/g" win-agent-vm-aib.json
+        sed -i -e "s/<imageDefName>/$(imageDefName)/g" win-agent-vm-aib.json
+        sed -i -e "s/<runOutputName>/$(runOutputName)/g" win-agent-vm-aib.json
+        sed -i -e "s/<replicationRegion>/$(replicationRegion)/g" win-agent-vm-aib.json
         sed -i -e "s/<branchname>/$(Build.SourceBranchName)/g" win-agent-vm-aib.json
-        sed -i -e "s/<vnetRgName>/$VNETRGNAME/g" win-agent-vm-aib.json
-        sed -i -e "s/<vnetName>/$VNETNAME/g" win-agent-vm-aib.json
-        sed -i -e "s/<subnetName>/$SUBNETNAME/g" win-agent-vm-aib.json
+        sed -i -e "s/<vnetRgName>/$(vnetRgName)/g" win-agent-vm-aib.json
+        sed -i -e "s/<vnetName>/$(vnetName)/g" win-agent-vm-aib.json
+        sed -i -e "s/<subnetName>/$(subnetName)/g" win-agent-vm-aib.json
         sed -i -e "s%<imgBuilderId>%$(imageBuilderId)%g" win-agent-vm-aib.json
         cat win-agent-vm-aib.json
       displayName: 'String replace variable names'
@@ -96,6 +96,8 @@ jobs:
         TENANTID: $(TERRAFORM-TENANT-ID)
         CLIENTID: $(TERRAFORM-CLIENT-ID)
         CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
+        SUBSCRIPTIONID: $(subscriptionId)
+        IMAGERESOURCEGROUP: $(imageResourceGroup)
 
     - bash: |
         az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
@@ -110,7 +112,8 @@ jobs:
         TENANTID: $(TERRAFORM-TENANT-ID)
         CLIENTID: $(TERRAFORM-CLIENT-ID)
         CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
-
+        SUBSCRIPTIONID: $(subscriptionId)
+        IMAGERESOURCEGROUP: $(imageResourceGroup)
 
     - bash: |
         az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
@@ -125,3 +128,5 @@ jobs:
         TENANTID: $(TERRAFORM-TENANT-ID)
         CLIENTID: $(TERRAFORM-CLIENT-ID)
         CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
+        SUBSCRIPTIONID: $(subscriptionId)
+        IMAGERESOURCEGROUP: $(imageResourceGroup)

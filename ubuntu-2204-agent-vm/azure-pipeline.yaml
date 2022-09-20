@@ -6,13 +6,11 @@ resources:
       trigger:
         branches:
           include:
-            - master
             - main
 
 trigger:
   branches:
     include:
-      - master
       - main
   paths:
     include:
@@ -23,7 +21,6 @@ schedules:
   displayName: Weekly Build
   branches:
     include:
-    - master
     - main
   always: true
 

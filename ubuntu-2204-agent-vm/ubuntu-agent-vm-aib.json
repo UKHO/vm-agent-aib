@@ -24,7 +24,7 @@
         "source": {
             "type": "PlatformImage",
             "publisher": "Canonical",
-            "offer": "UbuntuServer",
+            "offer": "0001-com-ubuntu-server-jammy",
             "sku": "22.04-LTS",
             "version": "latest"
         },

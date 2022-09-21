@@ -46,36 +46,6 @@
             },
             {
                 "type": "Shell",
-                "name": "InstallMaven",
-                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm/scripts/maven.sh"
-            },
-            {
-                "type": "Shell",
-                "name": "InstallDotNetCoreSdk3-1",
-                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm/scripts/netcoresdk3-1.sh"
-            },
-            {
-                "type": "Shell",
-                "name": "DownloadAzureDevOpsAgent",
-                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm/scripts/azuredevopsagent.sh"
-            },
-            {
-                "type": "Shell",
-                "name": "DownloadAzDoAgentVmDrainer",
-                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm/scripts/azdoagentvmdrainer.sh"
-            },
-            {
-                "type": "Shell",
-                "name": "InstallPostgresqlClient",
-                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm/scripts/postgresql-client.sh"
-            },
-            {
-                "type": "Shell",
-                "name": "InstallPython",
-                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm/scripts/python.sh"
-            },
-            {
-                "type": "Shell",
                 "name": "InstallUKHOImages",
                 "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm/scripts/pulldockerimages.sh"
             }

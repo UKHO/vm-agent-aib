@@ -84,7 +84,7 @@ jobs:
     - bash: |
         az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
         az account set --subscription "$SUBSCRIPTIONID"
-        cd ubuntu-agent-vm
+        cd ubuntu-2004-agent-vm
         az resource create \
           --resource-group $IMAGERESOURCEGROUP \
           --properties @ubuntu-agent-vm-aib.json \

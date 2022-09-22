@@ -39,9 +39,7 @@ jobs:
     pool: 'UKHO Ubuntu 1804'
     container: ukhydrographicoffice/terraform-azure:latest
     timeoutInMinutes: 120
-
     steps:
-
     - bash: |
         terraform init \
         -backend-config="storage_account_name=$(storageName)" \
@@ -115,7 +113,6 @@ jobs:
         CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
         SUBSCRIPTIONID: $(subscriptionId)
         IMAGERESOURCEGROUP: $(imageResourceGroup)
-
 
     - bash: |
         az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"

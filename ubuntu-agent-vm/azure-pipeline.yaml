@@ -132,6 +132,7 @@ jobs:
         CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
         SUBSCRIPTIONID: $(subscriptionId)
         IMAGERESOURCEGROUP: $(imageResourceGroup)
+
   - job: cleanup
     pool: '$(CleanupPool)'
     steps:

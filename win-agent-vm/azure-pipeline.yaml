@@ -130,3 +130,29 @@ jobs:
         CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
         SUBSCRIPTIONID: $(subscriptionId)
         IMAGERESOURCEGROUP: $(imageResourceGroup)
+
+  - job: cleanup
+    pool: '$(CleanupPool)'
+    steps:
+    - pwsh: |
+        az login --service-principal --username "$ENV:CLIENTID" --password "$ENV:CLIENTSECRET" --tenant "$ENV:TENANTID"
+        az account set --subscription "$ENV:SUBSCRIPTIONID"
+        $dateLine = (Get-Date).AddMonths(-1)
+        $list = (az sig image-version list -g $ENV:IMAGERESOURCEGROUP -r $ENV:SHAREDIMAGEGALLERYNAME -i $ENV:IMAGEDEFNAME -o json | ConvertFrom-Json)
+        $splice = $list | Select-Object -Skip 4
+        foreach($item in $splice) {
+            $publishedDate = Get-Date($item.publishingProfile.publishedDate)
+            if($publishedDate -lt $dateLine) {
+              $item.name
+              Start-Job -ScriptBlock {param($rg, $gallery,$imagedef,$imagename) az sig image-version delete -g $rg -r $gallery -i $imagedef -e $imagename} -ArgumentList @($ENV:IMAGERESOURCEGROUP, $ENV:SHAREDIMAGEGALLERYNAME,$ENV:IMAGEDEFNAME,$($item.name))
+            }
+        }
+      displayName: "Run Cleanup"
+      env:
+        TENANTID: $(TERRAFORM-TENANT-ID)
+        CLIENTID: $(TERRAFORM-CLIENT-ID)
+        CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
+        SUBSCRIPTIONID: $(subscriptionId)
+        IMAGERESOURCEGROUP: $(imageResourceGroup)
+        SHAREDIMAGEGALLERYNAME: $(sharedImageGalleryName)
+        IMAGEDEFNAME: $(imageDefName)

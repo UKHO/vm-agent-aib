@@ -133,7 +133,7 @@ jobs:
         SUBSCRIPTIONID: $(subscriptionId)
         IMAGERESOURCEGROUP: $(imageResourceGroup)
   - job: cleanup
-    pool: 'NautilusBuild'
+    pool: '$(CleanupPool)'
     steps:
     - pwsh: |
         az login --service-principal --username "$ENV:CLIENTID" --password "$ENV:CLIENTSECRET" --tenant "$ENV:TENANTID"

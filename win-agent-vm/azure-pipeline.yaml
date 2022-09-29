@@ -6,25 +6,21 @@ resources:
       trigger:
         branches:
           include:
-            - master
             - main
 
 trigger:
   branches:
     include:
-      - master
       - main
   paths:
     include:
     - win-agent-vm/*
-    - terraform/*
     
 schedules:
 - cron: "0 5 * * 3"
   displayName: Weekly Build
   branches:
     include:
-    - master
     - main
   always: true
 
@@ -32,6 +28,11 @@ pr: none
 
 variables:
 - group: AzDO-variables
+- group: aib-variables
+- name: imageDefName
+  value: azure-pipelines-image-win-19
+- name: runOutputName
+  value: aibwin
 jobs:
   - job: GenerateImage
     pool: 'UKHO Ubuntu 1804'
@@ -65,17 +66,17 @@ jobs:
 
     - script: |
         cd win-agent-vm
-        sed -i -e "s/<subscriptionID>/$SUBSCRIPTIONID/g" win-agent-vm-aib.json
-        sed -i -e "s/<rgName>/$IMAGERESOURCEGROUP/g" win-agent-vm-aib.json
-        sed -i -e "s/<region>/$REGION/g" win-agent-vm-aib.json
-        sed -i -e "s/<sharedImageGalleryName>/$SHAREDIMAGEGALLERYNAME/g" win-agent-vm-aib.json
-        sed -i -e "s/<imageDefName>/$IMAGEDEFNAME/g" win-agent-vm-aib.json
-        sed -i -e "s/<runOutputName>/$RUNOUTPUTNAME/g" win-agent-vm-aib.json
-        sed -i -e "s/<replicationRegion>/$REPLICATIONREGION/g" win-agent-vm-aib.json
+        sed -i -e "s/<subscriptionID>/$(subscriptionId)/g" win-agent-vm-aib.json
+        sed -i -e "s/<rgName>/$(imageResourceGroup)/g" win-agent-vm-aib.json
+        sed -i -e "s/<region>/$(region)/g" win-agent-vm-aib.json
+        sed -i -e "s/<sharedImageGalleryName>/$(sharedImageGalleryName)/g" win-agent-vm-aib.json
+        sed -i -e "s/<imageDefName>/$(imageDefName)/g" win-agent-vm-aib.json
+        sed -i -e "s/<runOutputName>/$(runOutputName)/g" win-agent-vm-aib.json
+        sed -i -e "s/<replicationRegion>/$(replicationRegion)/g" win-agent-vm-aib.json
         sed -i -e "s/<branchname>/$(Build.SourceBranchName)/g" win-agent-vm-aib.json
-        sed -i -e "s/<vnetRgName>/$VNETRGNAME/g" win-agent-vm-aib.json
-        sed -i -e "s/<vnetName>/$VNETNAME/g" win-agent-vm-aib.json
-        sed -i -e "s/<subnetName>/$SUBNETNAME/g" win-agent-vm-aib.json
+        sed -i -e "s/<vnetRgName>/$(vnetRgName)/g" win-agent-vm-aib.json
+        sed -i -e "s/<vnetName>/$(vnetName)/g" win-agent-vm-aib.json
+        sed -i -e "s/<subnetName>/$(subnetName)/g" win-agent-vm-aib.json
         sed -i -e "s%<imgBuilderId>%$(imageBuilderId)%g" win-agent-vm-aib.json
         cat win-agent-vm-aib.json
       displayName: 'String replace variable names'
@@ -95,6 +96,8 @@ jobs:
         TENANTID: $(TERRAFORM-TENANT-ID)
         CLIENTID: $(TERRAFORM-CLIENT-ID)
         CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
+        SUBSCRIPTIONID: $(subscriptionId)
+        IMAGERESOURCEGROUP: $(imageResourceGroup)
 
     - bash: |
         az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
@@ -109,7 +112,8 @@ jobs:
         TENANTID: $(TERRAFORM-TENANT-ID)
         CLIENTID: $(TERRAFORM-CLIENT-ID)
         CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
-
+        SUBSCRIPTIONID: $(subscriptionId)
+        IMAGERESOURCEGROUP: $(imageResourceGroup)
 
     - bash: |
         az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
@@ -124,3 +128,31 @@ jobs:
         TENANTID: $(TERRAFORM-TENANT-ID)
         CLIENTID: $(TERRAFORM-CLIENT-ID)
         CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
+        SUBSCRIPTIONID: $(subscriptionId)
+        IMAGERESOURCEGROUP: $(imageResourceGroup)
+
+  - job: cleanup
+    pool: '$(CleanupPool)'
+    steps:
+    - pwsh: |
+        az login --service-principal --username "$ENV:CLIENTID" --password "$ENV:CLIENTSECRET" --tenant "$ENV:TENANTID"
+        az account set --subscription "$ENV:SUBSCRIPTIONID"
+        $dateLine = (Get-Date).AddMonths(-1)
+        $list = (az sig image-version list -g $ENV:IMAGERESOURCEGROUP -r $ENV:SHAREDIMAGEGALLERYNAME -i $ENV:IMAGEDEFNAME -o json | ConvertFrom-Json)
+        $splice = $list | Select-Object -Skip 4
+        foreach($item in $splice) {
+            $publishedDate = Get-Date($item.publishingProfile.publishedDate)
+            if($publishedDate -lt $dateLine) {
+              $item.name
+              Start-Job -ScriptBlock {param($rg, $gallery,$imagedef,$imagename) az sig image-version delete -g $rg -r $gallery -i $imagedef -e $imagename} -ArgumentList @($ENV:IMAGERESOURCEGROUP, $ENV:SHAREDIMAGEGALLERYNAME,$ENV:IMAGEDEFNAME,$($item.name))
+            }
+        }
+      displayName: "Run Cleanup"
+      env:
+        TENANTID: $(TERRAFORM-TENANT-ID)
+        CLIENTID: $(TERRAFORM-CLIENT-ID)
+        CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
+        SUBSCRIPTIONID: $(subscriptionId)
+        IMAGERESOURCEGROUP: $(imageResourceGroup)
+        SHAREDIMAGEGALLERYNAME: $(sharedImageGalleryName)
+        IMAGEDEFNAME: $(imageDefName)

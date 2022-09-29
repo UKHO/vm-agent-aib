@@ -12,6 +12,11 @@ data "azurerm_subscription" "primary" {
 resource "azurerm_resource_group" "aib-rg" {
   name     = var.vnetRgName
   location = var.location_id
+  lifecycle {
+    ignore_changes = [
+      tags
+    ]
+  }
 }
 
 resource "azurerm_user_assigned_identity" "identity" {
@@ -19,6 +24,13 @@ resource "azurerm_user_assigned_identity" "identity" {
   location = azurerm_resource_group.aib-rg.location
 
   name = "aib-identity"
+
+  lifecycle {
+    ignore_changes = [
+      tags
+    ]
+  }
+
 }
 
 resource "azurerm_role_assignment" "aib-subscription-contributor" {
@@ -32,6 +44,12 @@ resource "azurerm_virtual_network" "aib-vnet" {
   name                = var.vnetName
   address_space       = ["10.1.2.0/24"]
   location            = azurerm_resource_group.aib-rg.location
+  lifecycle {
+    ignore_changes = [
+      tags
+    ]
+  }
+
 }
 
 resource "azurerm_subnet" "aib-subnet" {
@@ -58,6 +76,12 @@ resource "azurerm_network_security_group" "aib-nsg" {
     destination_port_range     = "60000-60001"
     protocol                   = "Tcp"
   }
+  lifecycle {
+    ignore_changes = [
+      tags
+    ]
+  }
+
 }
 
 resource "azurerm_subnet_network_security_group_association" "aib-subnet-assocation" {

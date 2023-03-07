@@ -46,6 +46,11 @@
     }
     ,{
         "type": "PowerShell",
+        "name": "InstallPackages",
+        "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-agent-vm/scripts/Install-Packages.ps1"
+    }
+    ,{
+        "type": "PowerShell",
         "runElevated": true,
         "name": "DeprovisioningScript",
         "inline": [

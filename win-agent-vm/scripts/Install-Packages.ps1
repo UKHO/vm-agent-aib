@@ -4,5 +4,5 @@
 ##  Desc:  Install Chocolatey Packages.
 ################################################################################
 
-Write-Host "Install ndp 4.8"
-choco install netfx-4.8-devpack
+Write-Host "VSEnterprise2019"
+choco install visualstudio2019enterprise --package-parameters "--allWorkloads --includeRecommended --includeOptional --passive"

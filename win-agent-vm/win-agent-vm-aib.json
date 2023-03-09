@@ -48,7 +48,8 @@
         "type": "PowerShell",
         "name": "InstallPackages",
         "runElevated": true,
-        "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-agent-vm/scripts/Install-Packages.ps1"
+        "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-agent-vm/scripts/Install-Packages.ps1",
+        "validExitCodes": [0,3010]
     }
     ,{
         "type": "PowerShell",

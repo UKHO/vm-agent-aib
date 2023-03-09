@@ -122,7 +122,7 @@ jobs:
         --resource-group $IMAGERESOURCEGROUP \
         --resource-type Microsoft.VirtualMachineImages/imageTemplates \
         -n win-agent-vm-aib
-      condition: always()
+      condition: success()
       displayName: 'Delete the AIB template'
       env:
         TENANTID: $(TERRAFORM-TENANT-ID)

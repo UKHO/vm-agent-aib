@@ -105,8 +105,16 @@ jobs:
         --resource-group $IMAGERESOURCEGROUP \
         --resource-type Microsoft.VirtualMachineImages/imageTemplates \
         -n win-agent-vm-aib
+
+        az resource create \
+          --resource-group $IMAGERESOURCEGROUP \
+          --properties @win-agent-vm-aib.json \
+          --is-full-object \
+          --resource-type Microsoft.VirtualMachineImages/imageTemplates \
+          -n win-agent-vm-aib
+
       condition: failed()
-      displayName: 'Clean AIB template'
+      displayName: 'Redeploy AIB template'
       env:
         TENANTID: $(TERRAFORM-TENANT-ID)
         CLIENTID: $(TERRAFORM-CLIENT-ID)

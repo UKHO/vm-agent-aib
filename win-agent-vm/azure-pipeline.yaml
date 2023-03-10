@@ -98,6 +98,21 @@ jobs:
         CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
         SUBSCRIPTIONID: $(subscriptionId)
         IMAGERESOURCEGROUP: $(imageResourceGroup)
+    - bash: |
+        az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
+        az account set --subscription "$SUBSCRIPTIONID"
+        az resource delete \
+        --resource-group $IMAGERESOURCEGROUP \
+        --resource-type Microsoft.VirtualMachineImages/imageTemplates \
+        -n win-agent-vm-aib
+      condition: failed()
+      displayName: 'Clean AIB template'
+      env:
+        TENANTID: $(TERRAFORM-TENANT-ID)
+        CLIENTID: $(TERRAFORM-CLIENT-ID)
+        CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
+        SUBSCRIPTIONID: $(subscriptionId)
+        IMAGERESOURCEGROUP: $(imageResourceGroup)
 
     - bash: |
         az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
@@ -122,7 +137,7 @@ jobs:
         --resource-group $IMAGERESOURCEGROUP \
         --resource-type Microsoft.VirtualMachineImages/imageTemplates \
         -n win-agent-vm-aib
-      condition: or(failed('Deploy AIB template'), succeeded())
+      condition: succeeded()
       displayName: 'Delete the AIB template'
       env:
         TENANTID: $(TERRAFORM-TENANT-ID)

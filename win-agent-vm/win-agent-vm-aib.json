@@ -13,7 +13,7 @@
         }
     },
     "properties": {
-        "buildTimeoutInMinutes": 240,
+        "buildTimeoutInMinutes": 360,
         "vmProfile": {
             "vmSize": "Standard_D1_v2",
             "osDiskSizeGB": 128,
@@ -60,6 +60,20 @@
                 "name": "DeprovisioningScript",
                 "inline": [
                     "'Sysprep.exe /oobe /generalize /quiet /quit' | Set-Content -Path C:\\DeprovisioningScript.ps1"
+                ]
+            }
+        ],
+        "distribute": [
+            {
+                "type": "SharedImage",
+                "galleryImageId": "/subscriptions/<subscriptionID>/resourceGroups/<rgName>/providers/Microsoft.Compute/galleries/<sharedImageGalleryName>/images/<imageDefName>",
+                "runOutputName": "<runOutputName>",
+                "artifactTags": {
+                    "source": "azureVmImageBuilder",
+                    "baseosimg": "win19dc"
+                },
+                "replicationRegions": [
+                    "<replicationRegion>"
                 ]
             }
         ]

@@ -37,7 +37,7 @@ jobs:
   - job: GenerateImage
     pool: 'UKHO Ubuntu 1804'
     container: ukhydrographicoffice/terraform-azure:latest
-    timeoutInMinutes: 240
+    timeoutInMinutes: 360
 
     steps:
 
@@ -80,7 +80,6 @@ jobs:
         sed -i -e "s%<imgBuilderId>%$(imageBuilderId)%g" win-agent-vm-aib.json
         cat win-agent-vm-aib.json
       displayName: 'String replace variable names'
-
     - bash: |
         az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
         az account set --subscription "$SUBSCRIPTIONID"

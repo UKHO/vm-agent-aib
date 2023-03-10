@@ -1,0 +1,32 @@
+{
+    "type": "Microsoft.VirtualMachineImages/imageTemplates",
+    "apiVersion": "2021-10-01",
+    "location": "<region>",
+    "dependsOn": [],
+    "tags": {
+        "imagebuilderTemplate": "win19dc"
+    },
+    "identity": {
+        "type": "UserAssigned",
+        "userAssignedIdentities": {
+            "<imgBuilderId>": {}
+        }
+    },
+    "properties": {
+        "buildTimeoutInMinutes": 240,
+        "distribute": [
+            {
+                "type": "SharedImage",
+                "galleryImageId": "/subscriptions/<subscriptionID>/resourceGroups/<rgName>/providers/Microsoft.Compute/galleries/<sharedImageGalleryName>/images/<imageDefName>",
+                "runOutputName": "<runOutputName>",
+                "artifactTags": {
+                    "source": "azureVmImageBuilder",
+                    "baseosimg": "win19dc"
+                },
+                "replicationRegions": [
+                    "<replicationRegion>"
+                ]
+            }
+        ]
+    }
+}

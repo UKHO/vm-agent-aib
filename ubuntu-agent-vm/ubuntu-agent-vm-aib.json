@@ -78,6 +78,11 @@
                 "type": "Shell",
                 "name": "InstallUKHOImages",
                 "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm/scripts/pulldockerimages.sh"
+            },
+            {
+                "type": "Shell",
+                "name": "InstallUKHOImages",
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm/scripts/yarn.sh"
             }
         ],
         "distribute": [

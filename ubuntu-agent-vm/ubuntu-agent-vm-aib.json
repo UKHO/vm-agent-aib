@@ -36,6 +36,11 @@
             },
             {
                 "type": "Shell",
+                "name": "InstallYarn",
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm/scripts/yarn.sh"
+            },
+            {
+                "type": "Shell",
                 "name": "InstallDocker",
                 "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm/scripts/docker.sh"
             },
@@ -81,8 +86,8 @@
             },
             {
                 "type": "Shell",
-                "name": "InstallUKHOImages",
-                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm/scripts/yarn.sh"
+                "name": "CleanUp",
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm/scripts/zzcleanup.sh"
             }
         ],
         "distribute": [

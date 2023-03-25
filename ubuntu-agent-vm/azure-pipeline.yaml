@@ -97,7 +97,8 @@ jobs:
         az storage blob download --account-name "$NAME" --container-name "packerlogs" --name "$LOG" --account-key $KEY
 
         az storage blob download --account-name "$NAME" --container-name "packerlogs" --name "$LOG" --account-key $KEY > "logs.txt"
-      env: IMAGERESOURCEGROUP: $(imageResourceGroup)
+      env: 
+        IMAGERESOURCEGROUP: $(imageResourceGroup)
     - publish: $(Build.SourcesDirectory)/ubuntu-agent-vm/logs.txt
       artifact: logs
     - bash: |

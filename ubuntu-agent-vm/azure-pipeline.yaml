@@ -86,7 +86,7 @@ jobs:
         az account set --subscription "$SUBSCRIPTIONID"
         cd ubuntu-agent-vm
 
-        RG=$(az group list --query "[?contains(name,'$IMAGERESOURCEGROUP')].name" -o tsv)
+        RG=$(az group list --query "[?contains(name,'IT_$IMAGERESOURCEGROUP')].name" -o tsv)
 
         NAME=$(az storage account list -g $RG --query "[].name" -o tsv)
 

@@ -139,6 +139,7 @@ jobs:
       condition: always()
     - publish: $(Build.SourcesDirectory)/ubuntu-agent-vm/logs.txt
       artifact: logs
+      displayName: 'publish logs'
     - bash: |
         az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
         az account set --subscription "$SUBSCRIPTIONID"

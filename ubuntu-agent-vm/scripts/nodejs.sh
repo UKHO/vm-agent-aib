@@ -5,10 +5,13 @@ apt install -y \
     ca-certificates \
     curl \
     gnupg \
-    lsb-release
+    lsb-release \
+    nano
 
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+curl -sL https://deb.nodesource.com/setup_10.x | bash -
 
-source ~/.bashrc
+apt update
 
-nvm install lts/dubnium
+apt install -y gcc g++ make
+
+apt install -y nodejs

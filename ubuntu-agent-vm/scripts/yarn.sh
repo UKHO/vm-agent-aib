@@ -13,4 +13,4 @@ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/source
 
 apt update
 
-apt install yarn
+apt install -y yarn

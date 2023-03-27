@@ -36,6 +36,11 @@
             },
             {
                 "type": "Shell",
+                "name": "InitialConfiguration",
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm/scripts/nodejs.sh"
+            },
+            {
+                "type": "Shell",
                 "name": "InstallYarn",
                 "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm/scripts/yarn.sh"
             },

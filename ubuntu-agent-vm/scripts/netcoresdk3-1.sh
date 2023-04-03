@@ -1,3 +1,4 @@
+#!/usr/bin/env sh
 # Install .Net Core SDK
 wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 dpkg -i packages-microsoft-prod.deb

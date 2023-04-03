@@ -6,7 +6,8 @@ apt install -y \
     curl \
     gnupg \
     lsb-release \
-    nano
+    nano \
+    unzip
 
 curl -sL https://deb.nodesource.com/setup_10.x | bash -
 

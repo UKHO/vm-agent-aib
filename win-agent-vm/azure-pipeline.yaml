@@ -45,6 +45,7 @@ jobs:
     runOnce:
       deploy:
         steps:
+        - download: none
         - bash: |
             terraform init \
             -backend-config="storage_account_name=$(storageName)" \

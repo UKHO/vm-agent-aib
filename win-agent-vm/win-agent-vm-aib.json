@@ -58,9 +58,7 @@
                 "type": "PowerShell",
                 "runElevated": true,
                 "name": "DeprovisioningScript",
-                "inline": [
-                    "'Sysprep.exe /oobe /generalize /quiet /quit' | Set-Content -Path C:\\DeprovisioningScript.ps1"
-                ]
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-agent-vm/scripts/deprovision.ps1"
             }
         ],
         "distribute": [

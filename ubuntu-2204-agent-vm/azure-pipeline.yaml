@@ -122,11 +122,11 @@ jobs:
           - bash: |
               az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
               az account set --subscription "$SUBSCRIPTIONID"
-              cd ubuntu-agent-vm
+              cd ubuntu-2204-agent-vm
       
               RG=$(az group list --query "[?contains(name,'IT_$IMAGERESOURCEGROUP')].name" -o tsv)
       
-              NAME=$(az storage account list -g $RG --query "[].name" -o tsv)
+              NAME=$(az storage account list -g "$RG" --query "[].name" -o tsv)
       
               KEY=$(az storage account keys list --account-name "$NAME" --query "[0].value" -o tsv)
       

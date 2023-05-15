@@ -17,7 +17,7 @@ trigger:
     - win-2022-agent-vm/*
     
 schedules:
-- cron: "0 5 * * 3"
+- cron: "0 5 * * 4"
   displayName: Weekly Build
   branches:
     include:

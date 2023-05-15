@@ -166,7 +166,7 @@ jobs:
             SUBSCRIPTIONID: $(subscriptionId)
             IMAGERESOURCEGROUP: $(imageResourceGroup)
           condition: always()
-        - publish: $(Build.SourcesDirectory)/ubuntu-agent-vm/logs.txt
+        - publish: $(Build.SourcesDirectory)/win-agent-vm-aib/logs.txt
           artifact: logs
           displayName: 'publish logs'
           condition: always()    

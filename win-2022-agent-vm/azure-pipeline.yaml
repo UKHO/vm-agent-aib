@@ -187,7 +187,8 @@ jobs:
             IMAGERESOURCEGROUP: $(imageResourceGroup)
 
 - job: cleanup
-  pool: '$(CleanupPool)'
+  #pool: '$(CleanupPool)'
+  pool: 'UKHO Ubuntu 1804'
   steps:
   - pwsh: |
       az login --service-principal --username "$ENV:CLIENTID" --password "$ENV:CLIENTSECRET" --tenant "$ENV:TENANTID"

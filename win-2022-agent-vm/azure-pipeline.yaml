@@ -188,7 +188,7 @@ jobs:
 
 - job: cleanup
   #pool: '$(CleanupPool)'
-  pool: 'UKHO Ubuntu 1804'
+  pool: 'NautilusBuild'
   steps:
   - pwsh: |
       az login --service-principal --username "$ENV:CLIENTID" --password "$ENV:CLIENTSECRET" --tenant "$ENV:TENANTID"

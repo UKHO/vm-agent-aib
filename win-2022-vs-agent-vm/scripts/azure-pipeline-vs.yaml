@@ -165,7 +165,7 @@ jobs:
             CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
             SUBSCRIPTIONID: $(subscriptionId)
             IMAGERESOURCEGROUP: $(imageResourceGroup)
-          condition: always()
+         # condition: always()
         #- publish: $(Build.SourcesDirectory)/win-2022-agent-vs-vm-aib/logs.txt
         #  artifact: logs
         #  displayName: 'publish logs'

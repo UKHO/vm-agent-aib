@@ -71,7 +71,7 @@ jobs:
             ARM_ACCESS_KEY: $(TERRAFORM-ACCESS-KEY)
     
         - script: |
-            cd win-2022-agent-vm
+            cd win-2022-vs-agent-vm
             sed -i -e "s/<subscriptionID>/$(subscriptionId)/g" win-2022-agent-vs-vm-aib.json
             sed -i -e "s/<rgName>/$(imageResourceGroup)/g" win-2022-agent-vs-vm-aib.json
             sed -i -e "s/<region>/$(region)/g" win-2022-agent-vs-vm-aib.json

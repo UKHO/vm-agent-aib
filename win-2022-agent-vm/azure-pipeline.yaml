@@ -166,10 +166,10 @@ jobs:
             SUBSCRIPTIONID: $(subscriptionId)
             IMAGERESOURCEGROUP: $(imageResourceGroup)
           condition: always()
-        - publish: $(Build.SourcesDirectory)/win-2022-agent-vm-aib/logs.txt
-          artifact: logs
-          displayName: 'publish logs'
-          condition: always()    
+        #- publish: $(Build.SourcesDirectory)/win-2022-agent-vm-aib/logs.txt
+        #  artifact: logs
+        #  displayName: 'publish logs'
+        #  condition: always()    
         - bash: |
             az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
             az account set --subscription "$SUBSCRIPTIONID"
@@ -187,7 +187,8 @@ jobs:
             IMAGERESOURCEGROUP: $(imageResourceGroup)
 
 - job: cleanup
-  pool: '$(CleanupPool)'
+  #pool: '$(CleanupPool)'
+  pool: 'NautilusBuild'
   steps:
   - pwsh: |
       az login --service-principal --username "$ENV:CLIENTID" --password "$ENV:CLIENTSECRET" --tenant "$ENV:TENANTID"

@@ -89,7 +89,7 @@ jobs:
         - bash: |
             az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
             az account set --subscription "$SUBSCRIPTIONID"
-            cd win-2022-agent-vm
+            cd win-2022-vs-agent-vm
             az resource create \
               --resource-group $IMAGERESOURCEGROUP \
               --properties @win-2022-agent-vs-vm-aib.json \
@@ -145,7 +145,7 @@ jobs:
         - bash: |
             az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
             az account set --subscription "$SUBSCRIPTIONID"
-            cd win-2022-vs-gent-vm
+            cd win-2022-vs-agent-vm
     
             RG=$(az group list --query "[?contains(name,'IT_$IMAGERESOURCEGROUP')].name" -o tsv)
     

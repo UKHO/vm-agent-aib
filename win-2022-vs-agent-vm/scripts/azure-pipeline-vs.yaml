@@ -109,14 +109,14 @@ jobs:
             az resource delete \
             --resource-group $IMAGERESOURCEGROUP \
             --resource-type Microsoft.VirtualMachineImages/imageTemplates \
-            -n win-2022-agent-vs-vm-aib
+            -n win-2022-vs-agent-vs-vm-aib
     
             az resource create \
               --resource-group $IMAGERESOURCEGROUP \
               --properties @win-2022-agent-vs-vm-aib.json \
               --is-full-object \
               --resource-type Microsoft.VirtualMachineImages/imageTemplates \
-              -n win-2022-agent-vs-vm-aib
+              -n win-2022-vs-agent-vs-vm-aib
     
           condition: failed()
           displayName: 'Redeploy AIB template'
@@ -133,7 +133,7 @@ jobs:
             az resource invoke-action \
               --resource-group $IMAGERESOURCEGROUP \
               --resource-type  Microsoft.VirtualMachineImages/imageTemplates \
-              -n win-2022-agent-vs-vm-aib \
+              -n win-2022-vs-agent-vm-aib \
               --action Run 
           displayName: 'Build the image'
           env:
@@ -145,7 +145,7 @@ jobs:
         - bash: |
             az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
             az account set --subscription "$SUBSCRIPTIONID"
-            cd win-2022-agent-vm
+            cd win-2022-vs-gent-vm
     
             RG=$(az group list --query "[?contains(name,'IT_$IMAGERESOURCEGROUP')].name" -o tsv)
     

@@ -133,7 +133,7 @@ jobs:
             az resource invoke-action \
               --resource-group $IMAGERESOURCEGROUP \
               --resource-type  Microsoft.VirtualMachineImages/imageTemplates \
-              -n win-2022-vs-agent-vstudio-vm-aib \
+              -n win-2022-vs-agent-vm-aib \
               --action Run 
           displayName: 'Build the image'
           env:

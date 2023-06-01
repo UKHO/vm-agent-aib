@@ -1,0 +1,214 @@
+resources:
+  pipelines:
+    - pipeline: AzDoAgentDrainerBuild
+      project: shared-pipelines
+      source: UKHO.AzDoAgentDrainer
+      trigger:
+        branches:
+          include:
+            - main
+
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+    - win-2022-vs-agent-vm/*
+    
+schedules:
+- cron: "0 5 * * 4"
+  displayName: Weekly Build
+  branches:
+    include:
+    - main
+  always: true
+
+pr: none
+
+variables:
+- group: AzDO-variables
+- group: aib-variables
+- name: imageDefName
+  value: azure-pipelines-image-win-22
+- name: runOutputName
+  value: aibwin
+
+
+jobs:
+- deployment: GenerateImage
+  pool: 'UKHO Ubuntu 1804'
+  container: ukhydrographicoffice/terraform-azure:latest
+  timeoutInMinutes: 360
+  environment: 'AzureImageBuilder'
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - download: none
+        - checkout: self
+        - bash: |
+            terraform init \
+            -backend-config="storage_account_name=$(storageName)" \
+            -backend-config="resource_group_name=$(resourceGroupName)" \
+            -backend-config="container_name=tfstate" \
+            -backend-config="key=aib-vnet.tfstate"
+            
+            terraform validate
+            terraform apply -input=false -compact-warnings -auto-approve
+            echo "##vso[task.setvariable variable=imageBuilderId]$(terraform output aib-identity-id)"        
+          workingDirectory: ./terraform
+          displayName: Terraform Plan
+          env:
+            TF_VAR_location_id: $(region)
+            TF_VAR_vnetRgName: $(vnetRgName)
+            TF_VAR_vnetName: $(vnetName)
+            TF_VAR_subnetName: $(subnetName)
+            ARM_TENANT_ID: $(TERRAFORM-TENANT-ID)
+            ARM_CLIENT_ID: $(TERRAFORM-CLIENT-ID)
+            ARM_CLIENT_SECRET: $(TERRAFORM-CLIENT-SECRET)
+            ARM_SUBSCRIPTION_ID: $(TERRAFORM-SUBSCRIPTION-ID)
+            ARM_ACCESS_KEY: $(TERRAFORM-ACCESS-KEY)
+    
+        - script: |
+            cd win-2022-agent-vm
+            sed -i -e "s/<subscriptionID>/$(subscriptionId)/g" win-2022-agent-vs-vm-aib.json
+            sed -i -e "s/<rgName>/$(imageResourceGroup)/g" win-2022-agent-vs-vm-aib.json
+            sed -i -e "s/<region>/$(region)/g" win-2022-agent-vs-vm-aib.json
+            sed -i -e "s/<sharedImageGalleryName>/$(sharedImageGalleryName)/g" win-2022-agent-vs-vm-aib.json
+            sed -i -e "s/<imageDefName>/$(imageDefName)/g" win-2022-agent-vs-vm-aib.json
+            sed -i -e "s/<runOutputName>/$(runOutputName)/g" win-2022-agent-vs-vm-aib.json
+            sed -i -e "s/<replicationRegion>/$(replicationRegion)/g" win-2022-agent-vs-vm-aib.json
+            sed -i -e "s/<branchname>/$(Build.SourceBranchName)/g" win-2022-agent-vs-vm-aib.json
+            sed -i -e "s/<vnetRgName>/$(vnetRgName)/g" win-2022-agent-vs-vm-aib.json
+            sed -i -e "s/<vnetName>/$(vnetName)/g" win-2022-agent-vs-vm-aib.json
+            sed -i -e "s/<subnetName>/$(subnetName)/g" win-2022-agent-vs-vm-aib.json
+            sed -i -e "s%<imgBuilderId>%$(imageBuilderId)%g" win-2022-agent-vs-vm-aib.json
+            cat win-2022-agent-vs-vm-aib.json
+          displayName: 'String replace variable names'
+        - bash: |
+            az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
+            az account set --subscription "$SUBSCRIPTIONID"
+            cd win-2022-agent-vm
+            az resource create \
+              --resource-group $IMAGERESOURCEGROUP \
+              --properties @win-2022-agent-vs-vm-aib.json \
+              --is-full-object \
+              --resource-type Microsoft.VirtualMachineImages/imageTemplates \
+              -n win-2022-agent-vs-vm-aib
+          displayName: 'Deploy AIB template'
+          env:
+            TENANTID: $(TERRAFORM-TENANT-ID)
+            CLIENTID: $(TERRAFORM-CLIENT-ID)
+            CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
+            SUBSCRIPTIONID: $(subscriptionId)
+            IMAGERESOURCEGROUP: $(imageResourceGroup)
+        - bash: |
+            az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
+            az account set --subscription "$SUBSCRIPTIONID"
+            az resource delete \
+            --resource-group $IMAGERESOURCEGROUP \
+            --resource-type Microsoft.VirtualMachineImages/imageTemplates \
+            -n win-2022-agent-vs-vm-aib
+    
+            az resource create \
+              --resource-group $IMAGERESOURCEGROUP \
+              --properties @win-2022-agent-vs-vm-aib.json \
+              --is-full-object \
+              --resource-type Microsoft.VirtualMachineImages/imageTemplates \
+              -n win-2022-agent-vs-vm-aib
+    
+          condition: failed()
+          displayName: 'Redeploy AIB template'
+          env:
+            TENANTID: $(TERRAFORM-TENANT-ID)
+            CLIENTID: $(TERRAFORM-CLIENT-ID)
+            CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
+            SUBSCRIPTIONID: $(subscriptionId)
+            IMAGERESOURCEGROUP: $(imageResourceGroup)
+    
+        - bash: |
+            az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
+            az account set --subscription "$SUBSCRIPTIONID"
+            az resource invoke-action \
+              --resource-group $IMAGERESOURCEGROUP \
+              --resource-type  Microsoft.VirtualMachineImages/imageTemplates \
+              -n win-2022-agent-vs-vm-aib \
+              --action Run 
+          displayName: 'Build the image'
+          env:
+            TENANTID: $(TERRAFORM-TENANT-ID)
+            CLIENTID: $(TERRAFORM-CLIENT-ID)
+            CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
+            SUBSCRIPTIONID: $(subscriptionId)
+            IMAGERESOURCEGROUP: $(imageResourceGroup)
+        - bash: |
+            az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
+            az account set --subscription "$SUBSCRIPTIONID"
+            cd win-2022-agent-vm
+    
+            RG=$(az group list --query "[?contains(name,'IT_$IMAGERESOURCEGROUP')].name" -o tsv)
+    
+            NAME=$(az storage account list -g $RG --query "[].name" -o tsv)
+    
+            KEY=$(az storage account keys list --account-name "$NAME" --query "[0].value" -o tsv)
+    
+            LOG=$(az storage blob list --account-name "$NAME" --container-name "packerlogs" --account-key $KEY --query "[0].name" -o tsv)
+            
+            az storage blob download --account-name "$NAME" --container-name "packerlogs" --name "$LOG" --account-key $KEY
+    
+            az storage blob download --account-name "$NAME" --container-name "packerlogs" --name "$LOG" --account-key $KEY > "logs.txt"
+          displayName: 'Export Logs'
+          env: 
+            TENANTID: $(TERRAFORM-TENANT-ID)
+            CLIENTID: $(TERRAFORM-CLIENT-ID)
+            CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
+            SUBSCRIPTIONID: $(subscriptionId)
+            IMAGERESOURCEGROUP: $(imageResourceGroup)
+          condition: always()
+        #- publish: $(Build.SourcesDirectory)/win-2022-agent-vs-vm-aib/logs.txt
+        #  artifact: logs
+        #  displayName: 'publish logs'
+        #  condition: always()    
+        - bash: |
+            az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
+            az account set --subscription "$SUBSCRIPTIONID"
+            az resource delete \
+            --resource-group $IMAGERESOURCEGROUP \
+            --resource-type Microsoft.VirtualMachineImages/imageTemplates \
+            -n win-2022-agent-vs-vm-aib
+          condition: succeeded()
+          displayName: 'Delete the AIB template'
+          env:
+            TENANTID: $(TERRAFORM-TENANT-ID)
+            CLIENTID: $(TERRAFORM-CLIENT-ID)
+            CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
+            SUBSCRIPTIONID: $(subscriptionId)
+            IMAGERESOURCEGROUP: $(imageResourceGroup)
+
+- job: cleanup
+  #pool: '$(CleanupPool)'
+  pool: 'NautilusBuild'
+  steps:
+  - pwsh: |
+      az login --service-principal --username "$ENV:CLIENTID" --password "$ENV:CLIENTSECRET" --tenant "$ENV:TENANTID"
+      az account set --subscription "$ENV:SUBSCRIPTIONID"
+      $dateLine = (Get-Date).AddMonths(-1)
+      $list = (az sig image-version list -g $ENV:IMAGERESOURCEGROUP -r $ENV:SHAREDIMAGEGALLERYNAME -i $ENV:IMAGEDEFNAME -o json | ConvertFrom-Json)
+      $splice = $list | Select-Object -Skip 4
+      foreach($item in $splice) {
+          $publishedDate = Get-Date($item.publishingProfile.publishedDate)
+          if($publishedDate -lt $dateLine) {
+            $item.name
+            Start-Job -ScriptBlock {param($rg, $gallery,$imagedef,$imagename) az sig image-version delete -g $rg -r $gallery -i $imagedef -e $imagename} -ArgumentList @($ENV:IMAGERESOURCEGROUP, $ENV:SHAREDIMAGEGALLERYNAME,$ENV:IMAGEDEFNAME,$($item.name))
+          }
+      }
+    displayName: "Run Cleanup"
+    env:
+      TENANTID: $(TERRAFORM-TENANT-ID)
+      CLIENTID: $(TERRAFORM-CLIENT-ID)
+      CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
+      SUBSCRIPTIONID: $(subscriptionId)
+      IMAGERESOURCEGROUP: $(imageResourceGroup)
+      SHAREDIMAGEGALLERYNAME: $(sharedImageGalleryName)
+      IMAGEDEFNAME: $(imageDefName)

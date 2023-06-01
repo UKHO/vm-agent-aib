@@ -116,7 +116,7 @@ jobs:
               --properties @win-2022-agent-vs-vm-aib.json \
               --is-full-object \
               --resource-type Microsoft.VirtualMachineImages/imageTemplates \
-              -n win-2022-vs-agent-vs-vm-aib
+              -n win-2022-vs-agent-vstudio-vm-aib
     
           condition: failed()
           displayName: 'Redeploy AIB template'
@@ -133,7 +133,7 @@ jobs:
             az resource invoke-action \
               --resource-group $IMAGERESOURCEGROUP \
               --resource-type  Microsoft.VirtualMachineImages/imageTemplates \
-              -n win-2022-vs-agent-vm-aib \
+              -n win-2022-vs-agent-vstudio-vm-aib \
               --action Run 
           displayName: 'Build the image'
           env:
@@ -176,7 +176,7 @@ jobs:
             az resource delete \
             --resource-group $IMAGERESOURCEGROUP \
             --resource-type Microsoft.VirtualMachineImages/imageTemplates \
-            -n win-2022-agent-vs-vm-aib
+            -n win-2022-agent-vstudio-vm-aib
           condition: succeeded()
           displayName: 'Delete the AIB template'
           env:

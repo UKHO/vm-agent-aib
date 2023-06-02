@@ -6,8 +6,7 @@
 trigger:
 - main
 
-pool:
-  vmImage: 'UKHO Win 2022 with VStudio'
+pool: 'UKHO Win 2022 with VStudio'
 
 steps:
 - script: echo Hello, world!

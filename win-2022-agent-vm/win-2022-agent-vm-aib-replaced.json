@@ -4,7 +4,7 @@
     "location": "<region>",
     "dependsOn": [],
     "tags": {
-        "imagebuilderTemplate": "win22-vs-ent"
+        "imagebuilderTemplate": "win22dc"
     },
     "identity": {
         "type": "UserAssigned",
@@ -23,9 +23,9 @@
         },
         "source": {
             "type": "PlatformImage",
-            "publisher": "MicrosoftVisualStudio",
-            "offer": "visualstudio2022",
-            "sku": "vs-2022-ent-latest-ws2022",
+            "publisher": "MicrosoftWindowsServer",
+            "offer": "WindowsServer",
+            "sku": "2022-Datacenter",
             "version": "latest"
         },
         "customize": [
@@ -42,7 +42,7 @@
                 "runOutputName": "<runOutputName>",
                 "artifactTags": {
                     "source": "azureVmImageBuilder",
-                    "baseosimg": "win22-vs-ent"
+                    "baseosimg": "win22dc"
                 },
                 "replicationRegions": [
                     "<replicationRegion>"

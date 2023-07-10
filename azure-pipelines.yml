@@ -6,7 +6,7 @@
 trigger:
 - main
 
-pool: 'UKHO Win 2022 with VStudio'
+pool: 'Mare Nubium'
 
 steps:
 - script: echo Hello, world!

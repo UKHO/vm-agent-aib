@@ -11,6 +11,8 @@ pool: 'Mare Nubium'
 steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
+- script: docker --version
+  displayName : Shows the docker version
 
 - script: |
     echo Add other tasks to build, test, and deploy your project.

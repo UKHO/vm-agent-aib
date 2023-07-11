@@ -33,6 +33,11 @@
                 "type": "PowerShell",
                 "name": "InitVM",
                 "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-2022-agent-vm/scripts/Initialise-VM.ps1"
+            },
+            {
+                "type": "PowerShell",
+                "name": "InstallAzCli",
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-agent-vm/scripts/Install-AzureCli.ps1"
             }
         ],
         "distribute": [

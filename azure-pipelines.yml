@@ -13,7 +13,7 @@ steps:
   displayName: 'Run a one-line script'
 - script: docker --version
   displayName : Shows the docker version
-- script: Get-AzVM | Select -ExpandProperty OSProfile | Select -ExpandProperty Windowsconfiguration 
+- powershell: Get-AzVM | Select -ExpandProperty OSProfile | Select -ExpandProperty Windowsconfiguration 
   displayName: Shows the VM properties
 - script: |
     echo Add other tasks to build, test, and deploy your project.

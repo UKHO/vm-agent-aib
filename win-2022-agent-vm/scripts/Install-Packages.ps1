@@ -5,3 +5,4 @@
 ################################################################################
 
 Write-Host "Installing Using Chocolatey."
+choco install powershell-core

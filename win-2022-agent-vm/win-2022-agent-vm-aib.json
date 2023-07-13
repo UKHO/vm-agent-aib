@@ -43,6 +43,11 @@
                 "type": "PowerShell",
                 "name": "InstallDocker",
                 "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-agent-vm/scripts/Install-Docker.ps1"
+            },
+            {
+                "type": "PowerShell",
+                "name": "InstallPowerShellCore",
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-agent-vm/scripts/Install-PowershellCore.ps1"
             }
         ],
         "distribute": [

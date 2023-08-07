@@ -6,11 +6,17 @@
 ################################################################################
 
 Set-PSRepository -InstallationPolicy Trusted -Name PSGallery
-Write-Host "Install Docker"
-choco install docker-for-windows
+#Write-Host "Install Docker"
+#choco install docker-for-windows
 
 Write-Host "Install-Package Docker-Compose"
 choco install docker-compose
+
+Write-Host "Install Docker CLI"
+choco install docker-cli
+
+Write-Host "Install Docker Engine"
+choco install docker-engine
 
 Write-Host "Install Helm"
 choco install kubernetes-helm

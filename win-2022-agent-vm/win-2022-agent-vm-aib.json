@@ -46,7 +46,7 @@
             },
             {
                 "type": "PowerShell",
-                "name": "InstallPowerShellCore",
+                "name": "InstallDocker",
                 "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-2022-agent-vm/scripts/Install-Docker.ps1"
             },
                 {

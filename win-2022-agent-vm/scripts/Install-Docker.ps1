@@ -5,18 +5,15 @@
 ##         can continue.
 ################################################################################
 
-Set-PSRepository -InstallationPolicy Trusted -Name PSGallery
-#Write-Host "Install Docker"
-#choco install docker-for-windows
+#https://lippertmarkus.com/2021/09/04/containers-without-docker-desktop/
 
-Write-Host "Install-Package Docker-Compose"
-choco install docker-compose
+Enable-WindowsOptionalFeature -Online -FeatureName containers –All
+Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V –All
 
-Write-Host "Install Docker CLI"
-choco install docker-cli
-
-Write-Host "Install Docker Engine"
-choco install docker-engine
-
-Write-Host "Install Helm"
-choco install kubernetes-helm
+curl.exe -o docker.zip -LO https://download.docker.com/win/static/stable/x86_64/docker-20.10.13.zip 
+Expand-Archive docker.zip -DestinationPath C:\
+[Environment]::SetEnvironmentVariable("Path", "$($env:path);C:\docker", [System.EnvironmentVariableTarget]::Machine)
+$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
+dockerd --register-service
+Start-Service docker
+docker run hello-world

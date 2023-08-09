@@ -13,8 +13,7 @@ steps:
   displayName: 'Run a one-line script'
 - script: docker --version
   displayName : Shows the docker version
-- powershell: Get-AzVM | Select -ExpandProperty OSProfile | Select -ExpandProperty Windowsconfiguration 
-  displayName: Shows the VM properties
+- powershell: systeminfo
 - script: |
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml

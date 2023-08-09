@@ -49,13 +49,29 @@
                 "name": "InstallDocker",
                 "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-2022-agent-vm/scripts/Install-Docker.ps1"
             },
+            {
+                "type": "WindowsRestart",
+                "restartCommand": "shutdown /r /f /t 0",
+                "restartCheckCommand": "echo Azure-Image-Builder-Restarted-the-VM  > c:\\buildArtifacts\\azureImageBuilderRestart.txt",
+                "restartTimeout": "5m"
+              },
+             {
+                "type": "PowerShell",
+                "name": "InstallDockerce",
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-2022-agent-vm/scripts/Install-dockerce.ps1"
+            },
+
                 {
                   "type": "WindowsRestart",
                   "restartCommand": "shutdown /r /f /t 0",
                   "restartCheckCommand": "echo Azure-Image-Builder-Restarted-the-VM  > c:\\buildArtifacts\\azureImageBuilderRestart.txt",
                   "restartTimeout": "5m"
+                },
+            {
+                    "type": "PowerShell",
+                    "name": "StartDocker",
+                    "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-2022-agent-vm/scripts/start-docker.ps1"
                 }
-            
             
         ],
         "distribute": [

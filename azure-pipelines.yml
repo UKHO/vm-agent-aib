@@ -15,7 +15,7 @@ steps:
   displayName: 'What is on the path'
 - script: docker --version
   displayName : Shows the docker version
-- script: python --version
+- powershell: python --version
   displayName: Show python version
 - powershell: systeminfo
 - script: |

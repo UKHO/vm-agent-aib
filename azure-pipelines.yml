@@ -11,8 +11,12 @@ pool: 'Mare Nubium'
 steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
+- powershell: $ENV:PATH -split ';'
+  displayName: 'What is on the path'
 - script: docker --version
   displayName : Shows the docker version
+- powershell: python --version
+  displayName: Show python version
 - powershell: systeminfo
 - script: |
     echo Add other tasks to build, test, and deploy your project.

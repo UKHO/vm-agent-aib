@@ -70,8 +70,18 @@
                     "type": "PowerShell",
                     "name": "StartDocker",
                     "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/main/win-2022-agent-vm/scripts/Start-Docker.ps1"
-                }
-            
+                },
+            {
+                    "type": "PowerShell",
+                    "name": "InstallPython",
+                    "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-2022-agent-vm/scripts/Install-Python.ps1"
+            },
+            {
+                "type": "WindowsRestart",
+                "restartCommand": "shutdown /r /f /t 0",
+                "restartCheckCommand": "echo Azure-Image-Builder-Restarted-the-VM  > c:\\buildArtifacts\\azureImageBuilderRestart.txt",
+                "restartTimeout": "5m"
+              }
         ],
         "distribute": [
             {

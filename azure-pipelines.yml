@@ -13,6 +13,8 @@ steps:
   displayName: 'Run a one-line script'
 - script: docker --version
   displayName : Shows the docker version
+- script: python --version
+  displayName: Show python version
 - powershell: systeminfo
 - script: |
     echo Add other tasks to build, test, and deploy your project.

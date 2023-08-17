@@ -46,6 +46,11 @@
             },
             {
                 "type": "PowerShell",
+                "name": "InstallNodeJs",
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-2022-agent-vm/scripts/Install-NodeJs.ps1"
+            },
+            {
+                "type": "PowerShell",
                 "name": "InstallDocker",
                 "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-2022-agent-vm/scripts/Install-Docker.ps1"
             },

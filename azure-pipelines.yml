@@ -24,6 +24,9 @@ steps:
 - powershell: node --version
   displayName: Show node js version
   condition: always()
+- powershell: npm --version
+  displayName: Show npm version
+  condition: always()
 - powershell: systeminfo
   condition: always()
   displayName: Show system info

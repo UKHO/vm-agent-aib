@@ -11,14 +11,24 @@ pool: 'Mare Nubium'
 steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
+  condition: always()
 - powershell: $ENV:PATH -split ';'
   displayName: 'What is on the path'
+  condition: always()
 - script: docker --version
   displayName : Shows the docker version
+  condition: always()
 - powershell: python --version
   displayName: Show python version
+  condition: always()
+- powershell: node --version
+  displayName: Show node js version
+  condition: always()
 - powershell: systeminfo
+  condition: always()
+  displayName: Show system info
 - script: |
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
+  condition: always()

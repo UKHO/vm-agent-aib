@@ -1,2 +1,5 @@
-Write-Host "Install Powershell Core Using Chocolatey."
+Write-Host "Install NodeJS Using Chocolatey."
 choco install nodejs.install
+
+Write-Host "Install Gulp Using Chocolatey."
+choco install gulp-cli

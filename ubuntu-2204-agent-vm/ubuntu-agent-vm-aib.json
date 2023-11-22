@@ -32,32 +32,32 @@
             {
                 "type": "Shell",
                 "name": "InitialConfiguration",
-                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm/scripts/baseupdates.sh"
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-2204-agent-vm/scripts/baseupdates.sh"
             },
             {
                 "type": "Shell",
                 "name": "InstallDocker",
-                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm/scripts/docker.sh"
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-2204-agent-vm/scripts/docker.sh"
             },
             {
                 "type": "Shell",
                 "name": "InstallDockerCompose",
-                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm/scripts/dockercompose.sh"
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-2204-agent-vm/scripts/dockercompose.sh"
             },
             {
                 "type": "Shell",
                 "name": "InstallUKHOImages",
-                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm/scripts/pulldockerimages.sh"
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-2204-agent-vm/scripts/pulldockerimages.sh"
             },
             {
                 "type": "Shell",
                 "name": "InstallMSPackages",
-                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm/scripts/packages.microsoft.com.sh"
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-2204-agent-vm/scripts/packages.microsoft.com.sh"
             },
             {
                 "type": "Shell",
                 "name": "InstallYarn",
-                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm/scripts/yarn.sh"
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-2204-agent-vm/scripts/yarn.sh"
             }
         ],
         "distribute": [

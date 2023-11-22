@@ -36,7 +36,7 @@ variables:
 
 jobs:
   - deployment: GenerateImage
-    pool: 'UKHO Ubuntu 1804'
+    pool: 'Mare Nectaris'
     container: ukhydrographicoffice/terraform-azure:latest
     timeoutInMinutes: 360
     environment: 'AzureImageBuilder'

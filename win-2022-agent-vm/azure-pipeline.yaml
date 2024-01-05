@@ -72,8 +72,9 @@ jobs:
     
         - script: |
             cd win-2022-agent-vm
+            sed -i -e "s/<NvdAPIKey>/$(NvdAPIKey)/g" scripts/Install-NVD.ps1
+            
             sed -i -e "s/<subscriptionID>/$(subscriptionId)/g" win-2022-agent-vm-aib.json
-            sed -i -e "s/<NvdAPIKey>/$(NvdAPIKey)/g" win-2022-agent-vm-aib.json
             sed -i -e "s/<rgName>/$(imageResourceGroup)/g" win-2022-agent-vm-aib.json
             sed -i -e "s/<region>/$(region)/g" win-2022-agent-vm-aib.json
             sed -i -e "s/<sharedImageGalleryName>/$(sharedImageGalleryName)/g" win-2022-agent-vm-aib.json

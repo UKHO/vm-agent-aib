@@ -37,7 +37,7 @@
             {
                 "type": "PowerShell",
                 "name": "InstallNVD",
-                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-2022-agent-vm/scripts/Install-NVD.ps1 -NvdApiKey <NvdApiKey>"
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-2022-agent-vm/scripts/Install-NVD.ps1"
             },
             {
                 "type": "PowerShell",

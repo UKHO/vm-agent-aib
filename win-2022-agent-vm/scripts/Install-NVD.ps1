@@ -1,4 +1,4 @@
-param($NvdApiKey)
+param($NvdApiKey = "<NvdApiKey>")
 "SET TEMP"
 Set-Location "C:\Temp"
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12;

@@ -46,5 +46,5 @@ if ($null -ne $release) {
 
     Write-Host $currentPath
     Write-Host "Set environment path"
-    [System.Environment]::SetEnvironmentVariable("PATH", $currentPath, "Machine")
+    #[System.Environment]::SetEnvironmentVariable("PATH", $currentPath, "Machine")
 }

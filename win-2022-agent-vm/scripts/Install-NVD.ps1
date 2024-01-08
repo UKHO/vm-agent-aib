@@ -42,7 +42,7 @@ if ($null -ne $release) {
     $owasppath = "C:\dependency-check\bin\"
 
     Write-Host "Adding $owasppath to environment path"
-    $currentPath = $currentPath + $owasppath + ";"
+    $currentPath = $currentPath + ";" + $owasppath + ";"
 
     Write-Host $currentPath
     Write-Host "Set environment path"

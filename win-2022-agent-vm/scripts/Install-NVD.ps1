@@ -44,5 +44,5 @@ if ($null -ne $release) {
     Write-Host "Adding $owasppath to environment path"
     $currentPath += $owasppath
 
-    [Environment]::SetEnvironmentVariable("Path", $currentPath, "Machine") 
-    
+    [Environment]::SetEnvironmentVariable("Path", $currentPath, "Machine")
+}

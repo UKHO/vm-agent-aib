@@ -27,8 +27,8 @@ if ($null -ne $release) {
     Write-Host "Expand zip"
     Expand-Archive .\$leaf -Force
 
-    #Write-Host "Move Temp to root"
-    #Move-Item .\$dir\dependency-check .\dependency-check -Force
+    Write-Host "Move Temp to root"
+    Move-Item .\$dir\dependency-check .\dependency-check -Force
 
     #$content = Get-Content '.\dependency-check\bin\dependency-check.bat'
 

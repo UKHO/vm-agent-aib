@@ -1,6 +1,8 @@
 param($NvdApiKey = "<NvdApiKey>")
 Write-Host "Install NVD Checker"
-Set-Location "C:\Temp"
+Write-Host "$NvdApiKey"
+
+Set-Location "C:\"
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12;
 $latest = Invoke-RestMethod "https://api.github.com/repos/jeremylong/DependencyCheck/releases/latest"
 $release = $latest | `
@@ -12,11 +14,9 @@ if ($null -ne $release) {
 
     Write-Host "Release $url"
     $leaf = Split-Path $url -Leaf
-
-    Invoke-Command -ScriptBlock { 
-        $ProgressPreference = 'SilentlyContinue' 
-        Invoke-WebRequest $url -OutFile $leaf
-    }
+    
+    Write-Host "download to $leaf"
+    Invoke-WebRequest $url -OutFile $leaf
 
     $dir = Get-ChildItem $leaf | Select-Object -ExpandProperty BaseName
 
@@ -27,24 +27,25 @@ if ($null -ne $release) {
     Write-Host "Expand zip"
     Expand-Archive .\$leaf -Force
 
-    Write-Host "Move Temp to root"
-    Move-Item .\$dir\dependency-check .\dependency-check -Force
+    #Write-Host "Move Temp to root"
+    #Move-Item .\$dir\dependency-check .\dependency-check -Force
 
-    $content = Get-Content '.\dependency-check\bin\dependency-check.bat'
+    #$content = Get-Content '.\dependency-check\bin\dependency-check.bat'
 
-    $content = $content.Replace("org.owasp.dependencycheck.App %CMD_LINE_ARGS%", "org.owasp.dependencycheck.App %CMD_LINE_ARGS% -n")
+    #$content = $content.Replace("org.owasp.dependencycheck.App %CMD_LINE_ARGS%", "org.owasp.dependencycheck.App %CMD_LINE_ARGS% -n")
 
-    Write-Host "Set content with no update"
-    Set-Content -Value $content -Path .\dependency-check\bin\dependency-check.bat
+    #Write-Host "Set content with no update"
+    #Set-Content -Value $content -Path .\dependency-check\bin\dependency-check.bat
 
-    .\dependency-check\bin\dependency-check.bat --update --nvdApiKey $NvdApiKey
-    $currentPath = $Env:Path
-    $owasppath = "C:\dependency-check\bin\"
+    #Write-Host "update nvd update"
+    #.\dependency-check\bin\dependency-check.bat --update --nvdApiKey $NvdApiKey
+    #$currentPath = $Env:Path
+    #$owasppath = "C:\dependency-check\bin\"
 
-    Write-Host "Adding $owasppath to environment path"
-    $currentPath = $currentPath + ";" + $owasppath + ";"
+    #Write-Host "Adding $owasppath to environment path"
+    #$currentPath = $currentPath + ";" + $owasppath + ";"
 
-    Write-Host $currentPath
-    Write-Host "Set environment path"
+    #Write-Host $currentPath
+    #Write-Host "Set environment path"
     #[System.Environment]::SetEnvironmentVariable("PATH", $currentPath, "Machine")
 }

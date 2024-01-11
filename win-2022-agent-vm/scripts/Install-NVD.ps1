@@ -1,6 +1,4 @@
-param($NvdApiKey = "<NvdApiKey>")
-Write-Host "Install NVD Checker"
-Write-Host "$NvdApiKey"
+Write-Host "$ENV:NvdApiKey"
 
 Set-Location "C:\"
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12;
@@ -48,6 +46,6 @@ if ($null -ne $release) {
     [System.Environment]::SetEnvironmentVariable("PATH", $currentPath, "Machine")
     
     Write-Host "update nvd update"
-    .\dependency-check\bin\dependency-check.bat --update #--nvdApiKey $NvdApiKey
+    .\dependency-check\bin\dependency-check.bat --update --nvdApiKey $ENV:NvdApiKey
     
     }

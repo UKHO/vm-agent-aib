@@ -18,10 +18,6 @@ if ($null -ne $release) {
 
     $dir = Get-ChildItem $leaf | Select-Object -ExpandProperty BaseName
 
-    #$zip = "$($dir).zip"
-    # downloaded and saved from releases: https://github.com/jeremylong/DependencyCheck/releases
-    #Copy-Item "\\mgmt.local\dfs\DML-SW-Engineering\OWASP Dependency Check\$zip" $WorkingDirectory -Force
-
     Write-Host "Expand zip"
     Expand-Archive .\$leaf -Force
 

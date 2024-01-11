@@ -37,15 +37,17 @@ if ($null -ne $release) {
     #Write-Host "Set content with no update"
     #Set-Content -Value $content -Path .\dependency-check\bin\dependency-check.bat
 
-    #Write-Host "update nvd update"
-    #.\dependency-check\bin\dependency-check.bat --update --nvdApiKey $NvdApiKey
-    #$currentPath = $Env:Path
-    #$owasppath = "C:\dependency-check\bin\"
+    $currentPath = $Env:Path
+    $owasppath = "C:\dependency-check\bin\"
 
-    #Write-Host "Adding $owasppath to environment path"
-    #$currentPath = $currentPath + ";" + $owasppath + ";"
+    Write-Host "Adding $owasppath to environment path"
+    $currentPath = $currentPath + ";" + $owasppath + ";"
 
-    #Write-Host $currentPath
-    #Write-Host "Set environment path"
-    #[System.Environment]::SetEnvironmentVariable("PATH", $currentPath, "Machine")
-}
+    Write-Host $currentPath
+    Write-Host "Set environment path"
+    [System.Environment]::SetEnvironmentVariable("PATH", $currentPath, "Machine")
+    
+    Write-Host "update nvd update"
+    .\dependency-check\bin\dependency-check.bat --update #--nvdApiKey $NvdApiKey
+    
+    }

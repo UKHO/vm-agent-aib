@@ -59,7 +59,7 @@
                 "name": "setNVDAPIKey",
                 "runElevated": true,
                 "inline": [
-                    "[System.Environment]::SetEnvironmentVariable("NvdApiKey", "<NvdApiKey>", "Machine")",
+                    "[System.Environment]::SetEnvironmentVariable('NvdApiKey', '<NvdApiKey>', 'Machine')",
                 ]
             },
             {

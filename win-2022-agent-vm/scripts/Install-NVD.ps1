@@ -28,12 +28,12 @@ if ($null -ne $release) {
     Write-Host "Move Temp to root"
     Move-Item .\$dir\dependency-check .\dependency-check -Force
 
-    #$content = Get-Content '.\dependency-check\bin\dependency-check.bat'
+    $content = Get-Content '.\dependency-check\bin\dependency-check.bat'
 
-    #$content = $content.Replace("org.owasp.dependencycheck.App %CMD_LINE_ARGS%", "org.owasp.dependencycheck.App %CMD_LINE_ARGS% -n")
+    $content = $content.Replace("org.owasp.dependencycheck.App %CMD_LINE_ARGS%", "org.owasp.dependencycheck.App %CMD_LINE_ARGS% -n")
 
-    #Write-Host "Set content with no update"
-    #Set-Content -Value $content -Path .\dependency-check\bin\dependency-check.bat
+    Write-Host "Set content with no update"
+    Set-Content -Value $content -Path .\dependency-check\bin\dependency-check.bat
 
     $currentPath = $Env:Path
     $owasppath = "C:\dependency-check\bin\"

@@ -26,7 +26,7 @@ if ($null -ne $release) {
 
     $content = Get-Content '.\dependency-check\bin\dependency-check.bat'
 
-    $content = $content.Replace("org.owasp.dependencycheck.App %CMD_LINE_ARGS%", "org.owasp.dependencycheck.App %CMD_LINE_ARGS% -n --nvdApiKey $ENV:NvdApiKey")
+    $content = $content.Replace("org.owasp.dependencycheck.App %CMD_LINE_ARGS%", "org.owasp.dependencycheck.App %CMD_LINE_ARGS% --nvdApiKey $ENV:NvdApiKey")
 
     Write-Host "Set content with no update"
     Set-Content -Value $content -Path .\dependency-check\bin\dependency-check.bat

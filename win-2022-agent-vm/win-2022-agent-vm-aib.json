@@ -36,6 +36,11 @@
             },
             {
                 "type": "PowerShell",
+                "name": "Installjava",
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-2022-agent-vm/scripts/Install-Java.ps1"
+            },
+            {
+                "type": "PowerShell",
                 "name": "InstallAzCli",
                 "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-2022-agent-vm/scripts/Install-AzureCli.ps1"
             },
@@ -50,10 +55,23 @@
                 "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-2022-agent-vm/scripts/Install-NodeJs.ps1"
             },
             {
+                "type": "PowerShell",
+                "name": "setNVDAPIKey",
+                "runElevated": true,
+                "inline": [
+                    "[System.Environment]::SetEnvironmentVariable('NvdApiKey', '<NvdApiKey>', 'Machine')"
+                ]
+            },
+            {
                 "type": "WindowsRestart",
                 "restartCommand": "shutdown /r /f /t 0",
                 "restartCheckCommand": "echo Azure-Image-Builder-Restarted-the-VM  > c:\\buildArtifacts\\azureImageBuilderRestart.txt",
                 "restartTimeout": "5m"
+            },
+            {
+                "type": "PowerShell",
+                "name": "InstallNVD",
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-2022-agent-vm/scripts/Install-NVD.ps1"
             },
             {
                 "type": "PowerShell",

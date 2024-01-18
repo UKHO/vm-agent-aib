@@ -8,3 +8,6 @@ docker pull ukhydrographicoffice/terraform
 
 echo "Install UKHO Terraform + AZCLI"
 docker pull ukhydrographicoffice/terraform-azure-powershell
+
+echo "Install owasp/dependency-check"
+docker pull owasp/dependency-check:latest

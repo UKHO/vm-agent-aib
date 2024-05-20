@@ -17,7 +17,7 @@ trigger:
     - ubuntu-agent-vm-2404/*
     
 schedules:
-- cron: "0 5 * * 1"
+- cron: "0 5 * * 0"
   displayName: Weekly Build
   branches:
     include:

@@ -1,0 +1,78 @@
+{
+    "type": "Microsoft.VirtualMachineImages/imageTemplates",
+    "apiVersion": "2022-02-14",
+    "location": "<region>",
+    "dependsOn": [],
+    "tags": {
+        "imagebuilderTemplate": "ubuntu2204"
+    },
+    "identity": {
+        "type": "UserAssigned",
+        "userAssignedIdentities": {
+            "<imgBuilderId>": {}
+        }
+    },
+    "properties": {
+        "buildTimeoutInMinutes": 80,
+        "vmProfile": {
+            "vmSize": "Standard_D1_v2",
+            "osDiskSizeGB": 64,
+            "vnetConfig": {
+                "subnetId": "/subscriptions/<subscriptionID>/resourceGroups/<vnetRgName>/providers/Microsoft.Network/virtualNetworks/<vnetName>/subnets/<subnetName>"
+            }
+        },
+        "source": {
+            "type": "PlatformImage",
+            "publisher": "Canonical",
+            "offer": "ubuntu-24_04-lts",
+            "sku": "server",
+            "version": "latest"
+        },
+        "customize": [
+            {
+                "type": "Shell",
+                "name": "InitialConfiguration",
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm-2404/scripts/baseupdates.sh"
+            },
+            {
+                "type": "Shell",
+                "name": "InstallDocker",
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm-2404/scripts/docker.sh"
+            },
+            {
+                "type": "Shell",
+                "name": "InstallDockerCompose",
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm-2404/scripts/dockercompose.sh"
+            },
+            {
+                "type": "Shell",
+                "name": "InstallUKHOImages",
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm-2404/scripts/pulldockerimages.sh"
+            },
+            {
+                "type": "Shell",
+                "name": "InstallMSPackages",
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm-2404/scripts/packages.microsoft.com.sh"
+            },
+            {
+                "type": "Shell",
+                "name": "InstallYarn",
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-agent-vm-2404/scripts/yarn.sh"
+            }
+        ],
+        "distribute": [
+            {
+                "type": "SharedImage",
+                "galleryImageId": "/subscriptions/<subscriptionID>/resourceGroups/<rgName>/providers/Microsoft.Compute/galleries/<sharedImageGalleryName>/images/<imageDefName>",
+                "runOutputName": "<runOutputName>",
+                "artifactTags": {
+                    "source": "azureVmImageBuilder",
+                    "baseosimg": "ubuntu2404"
+                },
+                "replicationRegions": [
+                    "<replicationRegion>"
+                ]
+            }
+        ]
+    }
+}

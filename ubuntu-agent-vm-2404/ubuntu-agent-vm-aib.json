@@ -15,7 +15,7 @@
     "properties": {
         "buildTimeoutInMinutes": 80,
         "vmProfile": {
-            "vmSize": "Standard_D1_v2",
+            "vmSize": "Standard_DS1_v2",
             "osDiskSizeGB": 64,
             "vnetConfig": {
                 "subnetId": "/subscriptions/<subscriptionID>/resourceGroups/<vnetRgName>/providers/Microsoft.Network/virtualNetworks/<vnetName>/subnets/<subnetName>"
@@ -25,7 +25,7 @@
             "type": "PlatformImage",
             "publisher": "Canonical",
             "offer": "ubuntu-24_04-lts",
-            "sku": "server-gen1",
+            "sku": "server",
             "version": "latest"
         },
         "customize": [

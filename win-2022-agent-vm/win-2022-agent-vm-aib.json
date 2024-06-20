@@ -50,6 +50,11 @@
                 "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-2022-agent-vm/scripts/Install-PowerShellCore.ps1"
             },
             {
+                "type": "dotnetcore",
+                "name": "InstallDotNetCore",
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-2022-agent-vm/scripts/Install-dotnetcore.ps1"
+            },
+            {
                 "type": "PowerShell",
                 "name": "InstallNodeJs",
                 "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-2022-agent-vm/scripts/Install-NodeJs.ps1"

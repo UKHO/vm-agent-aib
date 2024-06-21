@@ -4,7 +4,7 @@
     "location": "<region>",
     "dependsOn": [],
     "tags": {
-        "imagebuilderTemplate": "ubuntu2204"
+        "imagebuilderTemplate": "ubuntu2404"
     },
     "identity": {
         "type": "UserAssigned",

@@ -145,7 +145,7 @@ jobs:
         - bash: |
             az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
             az account set --subscription "$SUBSCRIPTIONID"
-            cd ubuntu-agent-vm
+            cd win-agent-vm
     
             RG=$(az group list --query "[?contains(name,'IT_$IMAGERESOURCEGROUP')].name" -o tsv)
     

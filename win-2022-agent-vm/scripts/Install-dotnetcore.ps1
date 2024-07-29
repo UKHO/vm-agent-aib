@@ -1,1 +1,1 @@
-choco install dotnet-6.0-sdk
+choco install dotnet-8.0-sdk

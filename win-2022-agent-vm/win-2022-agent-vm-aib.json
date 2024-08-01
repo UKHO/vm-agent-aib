@@ -122,6 +122,11 @@
                     "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-2022-agent-vm/scripts/Install-Python.ps1"
             },
             {
+                    "type": "PowerShell",
+                    "name": "InstallPSQL",
+                    "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-2022-agent-vm/scripts/Install-psql.ps1"
+            },
+            {
                 "type": "WindowsRestart",
                 "restartCommand": "shutdown /r /f /t 0",
                 "restartCheckCommand": "echo Azure-Image-Builder-Restarted-the-VM  > c:\\buildArtifacts\\azureImageBuilderRestart.txt",

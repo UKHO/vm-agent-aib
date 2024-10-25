@@ -36,6 +36,11 @@
             },
             {
                 "type": "Shell",
+                "name": "Installdotnet",
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-2204-agent-vm/scripts/dotnet.sh"
+            },
+            {
+                "type": "Shell",
                 "name": "InstallDocker",
                 "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-2204-agent-vm/scripts/docker.sh"
             },

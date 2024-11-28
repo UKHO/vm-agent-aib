@@ -41,6 +41,11 @@
             },
             {
                 "type": "Shell",
+                "name": "InstallJavaJDK",
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-2204-agent-vm/scripts/java-jdk.sh"
+            },
+            {
+                "type": "Shell",
                 "name": "InstallDocker",
                 "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/ubuntu-2204-agent-vm/scripts/docker.sh"
             },

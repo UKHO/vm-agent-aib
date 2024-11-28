@@ -4,4 +4,4 @@ echo "update apt"
 apt update
 
 echo "install unzip"
-apt install -y unzip default-jre
+apt install -y unzip

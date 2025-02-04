@@ -13,3 +13,6 @@ apt update
 
 echo "Install baseline packages"
 apt install -y dotnet-sdk-8.0
+
+echo "Install az copy for Ubuntu 22.04"
+apt install -y azcopy

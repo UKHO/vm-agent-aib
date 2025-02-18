@@ -58,8 +58,7 @@
             {
                 "type": "PowerShell",
                 "name": "InstallDotNetCore",
-                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-2022-agent-vm/scripts/Install-dotnetcore.ps1",
-		"valid_exit_codes": [ 0, 3010 ]
+                "scriptUri": "https://raw.githubusercontent.com/UKHO/vm-agent-aib/<branchname>/win-2022-agent-vm/scripts/Install-dotnetcore.ps1"
             },
             {
                 "type": "WindowsRestart",

@@ -2,7 +2,7 @@ trigger: none
 pr: none
 
 schedules:
-- cron: "0 3 * * 1-5"
+- cron: "0 3 * * *"
   displayName: Daily clean
   branches:
     include:

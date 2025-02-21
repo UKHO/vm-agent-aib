@@ -1,0 +1,42 @@
+trigger: none
+pr: none
+
+schedules:
+- cron: "0 3 * * *"
+  displayName: Daily clean
+  branches:
+    include:
+    - main
+  always: true
+
+variables:
+- group: AzDO-variables
+- group: aib-variables
+
+jobs:
+- deployment: CleanArtifacts
+  pool: 'Mare Nectaris'
+  container: ukhydrographicoffice/terraform-azure:latest
+  timeoutInMinutes: 360
+  environment: 'AzureImageBuilder'
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - download: none
+        - checkout: self
+        - bash: |
+            az login --service-principal --username "$CLIENTID" --password "$CLIENTSECRET" --tenant "$TENANTID"
+            az account set --subscription "$SUBSCRIPTIONID"
+            az resource delete \
+            --resource-group $IMAGERESOURCEGROUP \
+            --resource-type Microsoft.VirtualMachineImages/imageTemplates \
+            -n win-2022-agent-vm-aib
+          condition: succeeded()
+          displayName: 'Delete the AIB template'
+          env:
+            TENANTID: $(TERRAFORM-TENANT-ID)
+            CLIENTID: $(TERRAFORM-CLIENT-ID)
+            CLIENTSECRET: $(TERRAFORM-CLIENT-SECRET)
+            SUBSCRIPTIONID: $(subscriptionId)
+            IMAGERESOURCEGROUP: $(imageResourceGroup)

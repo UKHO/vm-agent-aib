@@ -4,7 +4,7 @@
     "location": "<region>",
     "dependsOn": [],
     "tags": {
-        "imagebuilderTemplate": "win22-vs-ent"
+        "imagebuilderTemplate": "win25-vs22-ent"
     },
     "identity": {
         "type": "UserAssigned",
@@ -24,8 +24,8 @@
         "source": {
             "type": "PlatformImage",
             "publisher": "MicrosoftVisualStudio",
-            "offer": "visualstudio2022",
-            "sku": "vs-2022-ent-latest-ws2022",
+            "offer": "visualstudiowsplustools",
+            "sku": "vs-2022-pro-ws2025-datacenter-azure-gen2",
             "version": "latest"
         },
         "customize": [

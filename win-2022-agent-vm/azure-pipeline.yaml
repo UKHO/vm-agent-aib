@@ -30,7 +30,7 @@ variables:
 - group: AzDO-variables
 - group: aib-variables
 - name: imageDefName
-  value: azure-pipelines-image-win-22
+  value: azure-pipelines-image-win-25
 - name: runOutputName
   value: aibwin
 

@@ -1,4 +1,5 @@
 #!/bin/bash
+export AGENT_USE_NODE20=true
 
 echo "update apt"
 apt update

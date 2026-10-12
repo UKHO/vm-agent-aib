@@ -1,18 +1,12 @@
-#!/usr/bin/env sh
+sudo mkdir -p /etc/apt/keyrings
 
-apt update
+curl -fsSL https://dl.yarnpkg.com/debian/pubkey.gpg \
+  | sudo gpg --dearmor \
+  -o /etc/apt/keyrings/yarn.gpg
 
-apt install -y \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    gnupg \
-    lsb-release
+echo \
+  "deb [signed-by=/etc/apt/keyrings/yarn.gpg] https://dl.yarnpkg.com/debian stable main" \
+  | sudo tee /etc/apt/sources.list.d/yarn.list
 
-curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-
-echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-
-apt update
-
-apt install -y yarn
+sudo apt update
+sudo apt install -y yarn
